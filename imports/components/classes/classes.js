@@ -9,6 +9,7 @@ class ClassCtrl {
  
     this.helpers({
       classes() {
+        console.log("test");
         return Classes.find({});
       }
     })
@@ -24,7 +25,6 @@ class ClassCtrl {
   //   // Clear form
   //   this.newTask = '';
   // }
-
 }
  
 export default angular.module('classes', [
