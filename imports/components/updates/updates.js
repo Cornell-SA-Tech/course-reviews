@@ -1,7 +1,8 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import { HTTP } from 'meteor/http'
-import { Classes } from '../../api/classes.js';
+import { Classes} from '../../api/classes.js';
+import { Subjects } from '../../api/classes.js';
 import template from './updates.html';
 
 class UpdatesCtrl {
@@ -23,26 +24,49 @@ class UpdatesCtrl {
         //return [{"status" : "fail"}];
       } else {
         var sub = response.data.data.subjects;
-        var subjects = [];
+        // var subjects = [];
         for (course in sub) {
-          var parent = sub[course].value;
-          console.log(parent);
-          HTTP.call("GET", "https://classes.cornell.edu/api/2.0/search/classes.json?roster=SP17&subject="+ parent, function(error, response ) {
+          var parent = sub[course];
+          //if subject doesn't exist
+          if (Subjects.find().fetch() == []) {
+            //console.log("not here");
+            Subjects.insert({
+              classSub : parent.value,
+              fullSub: parent.descr
+            });
+          } 
+        
+          //console.log(parent);
+          //get all classes in this subject
+          HTTP.call("GET", "https://classes.cornell.edu/api/2.0/search/classes.json?roster=SP17&subject="+ parent.value, function(error, response ) {
             if (error) {
               console.log("inner error");
             } else {
               //get resulting list of classes 
+              courses = response.data.data.classes;
+
               //for each class
-                //if class in the database
-                  //update prereqs
-                //else
-                  //add to the database
-                  //store in the list to display
-              console.log("made it");
+              for (course in courses) {
+                //console.log(courses[course]);
+                var result = Classes.find({classSub : parent.value, classNum : parseInt(courses[course].catalogNbr)}).fetch();
+                if (result.length == 0) {
+                  //insert new class
+                  Classes.insert({
+                    classSub : parent.value,
+                    classNum : courses[course].catalogNbr, 
+                    classTitle : courses[course].titleLong,
+                    classprereq : {}, 
+                    classreviews : {}
+                  });
+                  
+                } else {
+                  console.log("update class");
+                }
+              }
             }
           });
         }
-        //return response.status;
+        return response.status;
       }
     });
   }
