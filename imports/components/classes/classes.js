@@ -10,7 +10,7 @@ class ClassCtrl {
     this.helpers({
       classes() {
         console.log("test");
-        return Classes.find({});
+        return Classes.find({}, {limit: 20});
       }
     })
   }
