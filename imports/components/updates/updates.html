@@ -3,7 +3,40 @@
   <form class="update-classes" ng-submit="$ctrl.addClasses()">
     <input type="submit"/>
   </form>
-</header>
+ </header>
+
+ <section>
+   
+ </section>
+
+<section>
+    <div class = "form-group"> 
+    <h1>Student Ratings</h1>
+    <form onsubmit="conjoin(this['feedback'], this['diff'], this['qual'])">
+      <legend>Your Review:</legend>
+      	<textarea name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="10" cols="90" ></textarea>
+      	<br>
+
+      	Level of Difficulty: (1-5)<br>
+  		<input type="range" id="a1" name="diff" min="1" max="5" step="1">
+  		<br>
+
+  		Overall Quality: (1-5)<br>
+  		<input type="range" id="a2" name="qual" min="1" max="5" step="1">
+  		<br>
+
+    	<input type="submit" value="Submit">
+
+      <br>
+      <h2 style="font-size:80%;">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2>
+	  </form>
+    </div>
+</section>
+
+<section>
+	<h1>Past Reviews</h1>
+</section>
+
 
 <ul>
 <!--  <li ng-repeat="list">
