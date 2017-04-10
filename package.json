@@ -1,13 +1,31 @@
 {
-  "name": "simple-todos",
+  "name": "course-reviews",
   "private": true,
   "scripts": {
     "start": "meteor run"
   },
   "dependencies": {
-    "angular": "^1.6.3",
+    "angular": "^1.6.4",
     "angular-meteor": "^1.3.11",
+    "angularjs-gauge": "^1.3.0",
     "babel-runtime": "^6.23.0",
-    "meteor-node-stubs": "~0.2.4"
-  }
+    "meteor-node-stubs": "^0.2.6"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cornell-SA-Tech/course-reviews.git"
+  },
+  "author": "Cornell SA Tech",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cornell-SA-Tech/course-reviews/issues"
+  },
+   "engines": {
+    "node": "6.10.0"
+  },
+  "homepage": "https://github.com/Cornell-SA-Tech/course-reviews#readme",
+  "description": "A course review app by Cornell students for Cornell students"
 }
