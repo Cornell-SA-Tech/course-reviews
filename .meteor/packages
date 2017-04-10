@@ -22,3 +22,4 @@ angular-templates
 http@1.2.12
 twbs:bootstrap
 peerlibrary:reactive-publish
+aldeed:simple-schema

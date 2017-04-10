@@ -1,25 +1,48 @@
 import { Mongo } from 'meteor/mongo';
 import { HTTP } from 'meteor/http';
+//import { SimpleSchema } from 'meteor/simpleschema';
 
 export const Classes = new Mongo.Collection('classes');
+Classes.schema = new SimpleSchema({
+  classSub: {type: String},
+  classNum: {type: Number},
+  classTitle: {type: String},
+  classprereq : { type: [String] ,optional: true}, 
+  classreviews : {type: [String] ,optional: true} // maybe [Object?]
+});
 export const Subjects = new Mongo.Collection('subjects');
-
+Subjects.schema = new SimpleSchema({
+	subShort : {type: String},
+	subFull: {type: String}
+});
 if (Meteor.isServer) {
     // This code only runs on the server
+    Meteor.startup(() => {
+	  // code to run on server at startup
+	  Classes._ensureIndex(
+	        { 'classSub' : 1 },
+	        { 'classNum' : 1 },
+	        { 'classTitle' : 1 }
+	    );
+	  Subjects._ensureIndex(
+	  		{ 'subShort' : 1 },
+	        { 'subFull' : 1 },
+	  	);
+	});
 
     Meteor.publish('classes', function validClasses(searchString) {
 	  	console.log(searchString);
 	  	if (searchString != undefined && searchString != "") {
 	  		console.log("query");
-	  		//console.log(searchString);
+	
 	  		return Classes.find({'$or' : [ 
-			  { 'classSub':{ '$regex' : `.*${searchString}.*`, '$options' : 'i' }},
-			  { 'classNum':{ '$regex' : `.*${searchString}.*`, '$options' : 'i' } },
-			  { 'classTitle':{ '$regex' : `.*${searchString}.*`, '$options' : 'i' }}]
-			});
+			  { 'classSub':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }},
+			  { 'classNum':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' } },
+			  { 'classTitle':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }}]
+			}, {limit: 700}); //limit return results to maintain fast search
 	  	} else {
 	  		console.log("none");
-	  		return Classes.find({});
+	  		return Classes.find({}, {limit: 700});
 	  	}
   	});
 
@@ -40,11 +63,13 @@ if (Meteor.isServer) {
 				for (course in sub) {
 				    parent = sub[course];
 				    //if subject doesn't exist add to Subjects
-				    if (Subjects.find({'classSub' : parent.value}).fetch() == []) {
+				    checkSub = Subjects.find({'subShort' : (parent.value).toLowerCase()}).fetch(); 
+				    console.log(checkSub);
+				    if (checkSub.length == 0) {
 				     	console.log("new subject: " + parent.value);
 				        Subjects.insert({
-				        	classSub : parent.value,
-				        	fullSub: parent.descr
+				        	subShort : (parent.value).toLowerCase(),
+				        	subFull : parent.descr
 				        });
 				    } 
 				  
@@ -58,12 +83,12 @@ if (Meteor.isServer) {
 
 					    //add each class if it doesnt exist already
 					    for (course in courses) {
-					        var check = Classes.find({'classSub' : courses[course].subject, 'classNum' : courses[course].catalogNbr}).fetch();
+					        var check = Classes.find({'classSub' : (courses[course].subject).toLowerCase(), 'classNum' : courses[course].catalogNbr}).fetch();
 					        if (check.length == 0) {
 					            console.log("new class: " + courses[course].subject + " " + courses[course].catalogNbr + "," + semesters[semester]);
 					        	//insert new class with empty prereqs and reviews 
 					        	Classes.insert({
-					          		classSub : courses[course].subject,
+					          		classSub : (courses[course].subject).toLowerCase(),
 					          		classNum : courses[course].catalogNbr, 
 					          		classTitle : courses[course].titleLong,
 					          		classprereq : {}, 
@@ -84,10 +109,8 @@ if (Meteor.isServer) {
 
     }
 
-  //run on mongo if needed before running meteor:
-  //db.classes.remove({});
-  //db.subjects.remove({});
-
-  //COMMENT THIS OUT AFTER THE FIRST METEOR BUILD!!
+  //COMMENT THESE OUT AFTER THE FIRST METEOR BUILD!!
+  //Classes.remove({});
+  //Subjects.remove({});
   //initDB(true);
 }
