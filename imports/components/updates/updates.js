@@ -1,5 +1,6 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
+import gauges from 'angularjs-gauge';
 import { HTTP } from 'meteor/http'
 import { Classes} from '../../api/classes.js';
 import { Subjects } from '../../api/classes.js';
@@ -9,6 +10,7 @@ class UpdatesCtrl {
   constructor($scope) {
     $scope.viewModel(this);
 
+    
     this.subscribe('classes', () => [null]);
  
   }
@@ -24,9 +26,14 @@ class UpdatesCtrl {
   //   this.newTask = '';
   // }
 }
+
+
+
+
  
 export default angular.module('update', [
-  angularMeteor
+  angularMeteor, 
+  'angularjs-gauge'
 ])
   .component('update', {
     templateUrl: 'imports/components/updates/updates.html',

@@ -10,7 +10,17 @@
 <div class = "panel panel-default">
   <div class = "panel-body">
     <section>
-        Put donut gauages here
+        <div class="row">{{$ctrl.g1.value}}
+        	<div class="col-sm-4" >
+        		<ng-gauge id="gauge1" size="200" type="arch" thick="10" ng-value="g1.value" cap="round" ng-label="g1.label"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
+        	</div>
+        	<div class="col-sm-4">
+        		<ng-gauge id="gauge2" size="200" type="arch" thick="10" value="68.2" cap="round" label="thing2"  foreground-color="#ffcc66" background-color="#ECECEC" ></ng-gauge>
+        	</div>
+        	<div class="col-sm-4">
+        		<ng-gauge id="gauge3" size="200" type="arch" thick="10" value="" cap="round" label="thing3"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
+        	</div>
+        </div>
     </section>
   </div>
 </div>
