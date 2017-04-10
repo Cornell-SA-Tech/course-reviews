@@ -7,7 +7,8 @@ import template from './classes.html';
 class ClassCtrl {
   constructor($scope) {
     $scope.viewModel(this);
-
+    this.selectedClass = {};
+    this.isClassSelected = false;
     this.query = "";
  
     this.subscribe('classes', () => [this.getReactively('query')]);
