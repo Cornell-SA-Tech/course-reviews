@@ -4,27 +4,19 @@ import { Classes } from '../../api/classes.js';
 import template from './classes.html';
  
 class ClassCtrl {
-   constructor($scope) {
+  constructor($scope) {
     $scope.viewModel(this);
+
+    this.query = "";
  
+    this.subscribe('classes', () => [this.getReactively('query')]);
+    
     this.helpers({
       classes() {
-        console.log("test");
         return Classes.find({}, {limit: 20});
       }
     })
-  }
-
-  // addTask(newTask) {
-  //   // Insert a task into the collection
-  //   Tasks.insert({
-  //     text: newTask,
-  //     createdAt: new Date
-  //   });
- 
-  //   // Clear form
-  //   this.newTask = '';
-  // }
+  } 
 }
  
 export default angular.module('classes', [
