@@ -9,8 +9,9 @@ Classes.schema = new SimpleSchema({
   classSub: {type: String},
   classNum: {type: Number},
   classTitle: {type: String},
-  classatten: {type: Number},
-  classprereq : { type: [String] ,optional: true}, 
+  classAtten: {type: Number},
+  classPrereq : { type: [String] ,optional: true},
+  classFull: {type: String} 
   //classreviews : {type: [String] ,optional: true} // maybe [Object?]
 });
 
@@ -65,7 +66,9 @@ if (Meteor.isServer) {
 	  		return Classes.find({'$or' : [ 
 			  { 'classSub':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }},
 			  { 'classNum':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' } },
-			  { 'classTitle':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }}]
+			  { 'classTitle':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }},
+			  { 'classFull':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }}]
+
 			}, 
 			{limit: 700});
 	  	} else {
@@ -134,8 +137,8 @@ if (Meteor.isServer) {
 					          		classSub : (courses[course].subject).toLowerCase(),
 					          		classNum : courses[course].catalogNbr, 
 					          		classTitle : courses[course].titleLong,
-					          		classprereq : {}, 
-					          		classreviews : {}
+					          		classPrereq : {}, 
+					          		classFull: (courses[course].subject).toLowerCase() + " " + courses[course].catalogNbr +"  " + courses[course].titleLong.toLowerCase()
 					       		});
 					     	} else {
 					        	console.log("update class " + courses[course].subject + " " + courses[course].catalogNbr + "," + semesters[semester]);
