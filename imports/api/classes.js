@@ -2,23 +2,43 @@ import { Mongo } from 'meteor/mongo';
 import { HTTP } from 'meteor/http';
 //import { SimpleSchema } from 'meteor/simpleschema';
 
+//define database objects
 export const Classes = new Mongo.Collection('classes');
 Classes.schema = new SimpleSchema({
+  _id: {type: String},
   classSub: {type: String},
   classNum: {type: Number},
   classTitle: {type: String},
+  classatten: {type: Number},
   classprereq : { type: [String] ,optional: true}, 
-  classreviews : {type: [String] ,optional: true} // maybe [Object?]
+  //classreviews : {type: [String] ,optional: true} // maybe [Object?]
 });
+
 export const Subjects = new Mongo.Collection('subjects');
 Subjects.schema = new SimpleSchema({
+	_id: {type: String},
 	subShort : {type: String},
 	subFull: {type: String}
 });
+
+export const Reviews = new Mongo.Collection('reviews');
+Reviews.schema = new SimpleSchema({
+	_id: {type: String},
+	user: {type: String},
+	text: {type: String,optional: true},
+	difficulty: {type: Number},
+	quality: {type: Number},
+ 	class: {type: String}, //ref to classId
+ 	grade: {type: Number},
+ 	date: {type: Date}
+});
+
 if (Meteor.isServer) {
     // This code only runs on the server
     Meteor.startup(() => {
 	  // code to run on server at startup
+
+	  //add indexes
 	  Classes._ensureIndex(
 	        { 'classSub' : 1 },
 	        { 'classNum' : 1 },
@@ -26,23 +46,46 @@ if (Meteor.isServer) {
 	    );
 	  Subjects._ensureIndex(
 	  		{ 'subShort' : 1 },
-	        { 'subFull' : 1 },
+	        { 'subFull' : 1 }
+	  	);
+	  Reviews._ensureIndex(
+	    	{ 'class' : 1},
+	    	{ 'difficulty' : 1 },
+	    	{ 'quality' : 1 },
+	    	{ 'grade' : 1 },
+	    	{ 'user' : 1 }
 	  	);
 	});
 
+    //publish visible classes based on search query
     Meteor.publish('classes', function validClasses(searchString) {
 	  	console.log(searchString);
 	  	if (searchString != undefined && searchString != "") {
 	  		console.log("query");
-	
 	  		return Classes.find({'$or' : [ 
 			  { 'classSub':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }},
 			  { 'classNum':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' } },
 			  { 'classTitle':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }}]
-			}, {limit: 700}); //limit return results to maintain fast search
+			}, 
+			{limit: 700});
 	  	} else {
 	  		console.log("none");
-	  		return Classes.find({}, {limit: 700});
+	  		return Classes.find({},
+	  		{limit: 700}); 
+	  	}
+  	});
+
+    //publish visible reviews based on selected course 
+	Meteor.publish('reviews', function validReviews(courseId) {
+	  	console.log(courseId);
+	  	if (courseId != undefined && courseId != "") {
+	  		console.log("a class");
+	
+	  		return Reviews.find({class : courseId},  
+			{limit: 700});
+	  	} else {
+	  		console.log("no class");
+	  		//return; 
 	  	}
   	});
 

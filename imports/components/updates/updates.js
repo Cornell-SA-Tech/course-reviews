@@ -10,26 +10,9 @@ class UpdatesCtrl {
   constructor($scope) {
     $scope.viewModel(this);
 
-    
     this.subscribe('classes', () => [null]);
- 
   }
-
-  //}
-  //   // Insert a task into the collection
-  //   Tasks.insert({
-  //     text: newTask,
-  //     createdAt: new Date
-  //   });
- 
-  //   // Clear form
-  //   this.newTask = '';
-  // }
 }
-
-
-
-
  
 export default angular.module('update', [
   angularMeteor, 

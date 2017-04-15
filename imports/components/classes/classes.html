@@ -32,33 +32,14 @@
 	<div class="col-md-6">
 		<header>
 		  <h1>Classes</h1>
-		  <div>Selected Class: {{$ctrl.selectedClass}}</div>
+		  <div>Selected Class: {{$ctrl.selectedClass }}</div>
 		</header>
-		<div ng-show="!$ctrl.isClassSelected">
+		<div>
 			<ul>
 			  <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true" ng-repeat="class in $ctrl.classes">
 			    {{class.classSub}} {{class.classNum}}: {{class.classTitle}}
 			  </li>
 			</ul>
-		</div>
-		<div ng-show="$ctrl.isClassSelected">
-			<div class = "panel panel-default">
-			  <div class = "panel-body">
-			    <section>
-			        <div class="row">
-			        	<div class="col-sm-4">
-			        		<ng-gauge id="gauge1" size="200" type="arch" thick="10" value="50" cap="round" ng-label="thing1"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
-			        	</div>
-			        	<div class="col-sm-4">
-			        		<ng-gauge id="gauge2" size="200" type="arch" thick="10" value="68.2" cap="round" label="thing2"  foreground-color="#ffcc66" background-color="#ECECEC" ></ng-gauge>
-			        	</div>
-			        	<div class="col-sm-4">
-			        		<ng-gauge id="gauge3" size="200" type="arch" thick="10" value="33" cap="round" label="thing3"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
-			        	</div>
-			        </div>
-			    </section>
-			  </div>
-			</div>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -67,20 +48,58 @@
 		  <section>
 		    <div class = "form-group"> 
 		    <h1>Student Ratings</h1>
-		    <form onsubmit="conjoin(this['feedback'], this['diff'], this['qual'])">
+		    <div>
+				<div class = "panel panel-default">
+				  <div class = "panel-body">
+				    <section>
+				        <div class="row">
+				        	<div class="col-sm-4">
+				        		<ng-gauge id="gauge1" size="200" type="arch" thick="10" value="50" cap="round" ng-label="thing1"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
+				        	</div>
+				        	<div class="col-sm-4">
+				        		<ng-gauge id="gauge2" size="200" type="arch" thick="10" value="68.2" cap="round" label="thing2"  foreground-color="#ffcc66" background-color="#ECECEC" ></ng-gauge>
+				        	</div>
+				        	<div class="col-sm-4">
+				        		<ng-gauge id="gauge3" size="200" type="arch" thick="10" value="33" cap="round" label="thing3"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
+				        	</div>
+				        </div>
+				    </section>
+				  </div>
+				</div>
+			</div>
+		    <form ng-submit="$ctrl.addReview($ctrl.newReview, $ctrl.selectedClass._id)">
 		      <legend>Your Review:</legend>
-		      	<textarea name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="10" cols="90" ></textarea>
+		      	<textarea ng-model="$ctrl.newReview.text" name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="10" cols="90" ></textarea>
 		      	<br>
 
 		      	Level of Difficulty: (1-5)<br>
-		  		<input type="range" id="a1" name="diff" min="1" max="5" step="1">
+		  		<input ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1">
 		  		<br>
 
 		  		Overall Quality: (1-5)<br>
-		  		<input type="range" id="a2" name="qual" min="1" max="5" step="1">
+		  		<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1">
 		  		<br>
 
-		    	<input type="submit" value="Submit">
+		  		Course Median Grade
+		  		<select ng-model="$ctrl.newReview.medGrade">
+		  			<option value="9">A+</option>
+		  			<option value="8">A</option>
+		  			<option value="7" selected>A-</option>
+		  			<option value="6">B+</option>
+		  			<option value="5">B</option>
+		  			<option value="4">B-</option>
+		  			<option value="3">C+</option>
+		  			<option value="2">C</option>
+		  			<option value="1">C-</option>
+		  		</select>
+		  		<br>
+		  		Attendence
+		    	<select ng-model="$ctrl.newReview.atten">
+		  			<option value="1" selected>Not Mandatory</option>
+		  			<option value="0">Mandatory</option>
+		  		</select>  
+		  		<br>
+		  		<input type="submit" value="Add Review!"></input>
 
 		      <br>
 		      <h2 style="font-size:80%;">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2>
