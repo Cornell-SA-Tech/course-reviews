@@ -67,7 +67,7 @@ class ClassCtrl {
 
   //update the values of the gauges when a class is selected
   updateGauges() {
-    if (this.isClassSelected) {
+    if (this.isClassSelected == true) {
       //reviews will have only this class's reviews because of the subscribe
       var countGrade = 0;
       var countDiff = 0;

@@ -88,7 +88,7 @@ if (Meteor.isServer) {
 			{limit: 700});
 	  	} else {
 	  		console.log("no class");
-	  		//return; 
+	  		return Reviews.find({}); 
 	  	}
   	});
 
