@@ -36,7 +36,7 @@
 		</header>
 		<div>
 			<ul>
-			  <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true" ng-repeat="class in $ctrl.classes">
+			  <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true; $ctrl.updateGauges()" ng-repeat="class in $ctrl.classes">
 			    {{class.classSub}} {{class.classNum}}: {{class.classTitle}}
 			  </li>
 			</ul>
@@ -54,13 +54,17 @@
 				    <section>
 				        <div class="row">
 				        	<div class="col-sm-4">
-				        		<ng-gauge id="gauge1" size="200" type="arch" thick="10" value="50" cap="round" ng-label="thing1"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
+							    <ng-gauge id="gauge1" type="arch" thick="10" size="200" cap="round" value="$ctrl.qual" label="Overall Quality">
+							    </ng-gauge> 
+				        		<!-- <ng-gauge id="gauge1" size="200" type="arch" thick="10" value="50" cap="round" ng-label="thing1"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge> -->
 				        	</div>
 				        	<div class="col-sm-4">
-				        		<ng-gauge id="gauge2" size="200" type="arch" thick="10" value="68.2" cap="round" label="thing2"  foreground-color="#ffcc66" background-color="#ECECEC" ></ng-gauge>
+				        		<ng-gauge id="gauge2" type="arch" thick="10" size="200" cap="round" value="$ctrl.diff" label="Level of Difficulty">
+							    </ng-gauge> 
 				        	</div>
 				        	<div class="col-sm-4">
-				        		<ng-gauge id="gauge3" size="200" type="arch" thick="10" value="33" cap="round" label="thing3"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
+				        		<ng-gauge id="gauge3" type="arch" thick="10" size="200" cap="round" value="$ctrl.grade" label="Median Grade">
+							    </ng-gauge> 
 				        	</div>
 				        </div>
 				    </section>
@@ -112,33 +116,38 @@
 		<section>
 			<h1>Past Reviews</h1>
 		</section>
+		<div>
+			<ul>
+				<li ng-click="" ng-repeat="review in $ctrl.reviews">
+					<!--repeat this code for as many reviews as present-->
+					<div class = "panel panel-default">
+						<div class= "panel-heading" id = "past">Name?</div>
+						<div class = "panel-body">
+						  <div class = "row">
+						    <div class = "col-sm-2">
+						      <div class = "panel panel-default">
+						      <div class = "panel-body">{{review.quality}}</div>
+						      </div>
+						      <div class = "panel panel-default">
+						      <div class = "panel-body">{{review.difficulty}}</div>
+						      </div>
+						    </div>
+						    <div class = "col-sm-2">
+						      <div class = "panel-body"> Overall Quality
+						      </div>
+						      <div class = "panel-body"> Level of difficulty
+						      </div>
+						    </div>
+						    <div class = "col-sm-8"> sample review goes here </div>
+						  </div>
 
-		<!--repeat this code for as many reviews as present-->
-		<div class = "panel panel-default">
-		<div class= "panel-heading" id = "past"> Reviewer Name </div>
-		<div class = "panel-body">
-		  <div class = "row">
-		    <div class = "col-sm-2">
-		      <div class = "panel panel-default">
-		      <div class = "panel-body"> 3.0
-		      </div>
-		      </div>
-		      <div class = "panel panel-default">
-		      <div class = "panel-body"> 4.0
-		      </div>
-		      </div>
-		    </div>
-		    <div class = "col-sm-2">
-		      <div class = "panel-body"> Overall Quality
-		      </div>
-		      <div class = "panel-body"> Level of difficulty
-		      </div>
-		    </div>
-		    <div class = "col-sm-8"> sample review goes here </div>
-		  </div>
-
+						</div>
+					</div>
+				</li>
+			</ul>
 		</div>
-		</div>
+		
+		
 	</div>
 
 </div>

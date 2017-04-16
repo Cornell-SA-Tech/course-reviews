@@ -24,6 +24,12 @@ class ClassCtrl {
  
     this.subscribe('classes', () => [this.getReactively('query')]);
     this.subscribe('reviews', () => [this.getReactively('selectedClass')._id]);
+
+    //gauge options https://ashish-chopra.github.io/angular-gauge/
+    this.qual = 0;
+    this.diff =0;
+    this.grade = "-";
+
     this.helpers({
       classes() {
         return Classes.find({}, {limit: 20});
@@ -57,6 +63,44 @@ class ClassCtrl {
         atten: null
       }
     }
+  }
+
+  //update the values of the gauges when a class is selected
+  updateGauges() {
+    if (this.isClassSelected) {
+      //reviews will have only this class's reviews because of the subscribe
+      var countGrade = 0;
+      var countDiff = 0;
+      var countQual = 0;
+      var count =0;
+      var gradeTranslation = ["C-", "C", "C+", "B-", "B", "B-", "A-", "A", "A+"];
+
+      var allReviews = Reviews.find({});
+      console.log(allReviews);
+      if (allReviews.fetch() != []) {
+        allReviews.forEach(function(review) {
+          count++;
+          countGrade = countGrade + Number(review["grade"]);
+          countDiff = countDiff + review["difficulty"];
+          countQual = countQual + review["quality"];
+        });
+
+        // console.log(countQual);
+        // console.log(countDiff);
+        // console.log(countGrade);
+
+        // console.log((countQual/count).toFixed(1));
+        // console.log((countDiff/count).toFixed(1));
+        // console.log(Math.floor(countGrade/count) - 1);
+        this.qual = (countQual/count).toFixed(1);
+        this.diff = (countDiff/count).toFixed(1);
+        this.grade = gradeTranslation[Math.floor(countGrade/count) - 1];
+      } else {
+        this.qual = 0;
+        this.diff = 0;
+        this.grade = "-";
+      }
+    } 
   }
 }
  

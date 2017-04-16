@@ -138,7 +138,7 @@ if (Meteor.isServer) {
 					          		classNum : courses[course].catalogNbr, 
 					          		classTitle : courses[course].titleLong,
 					          		classPrereq : {}, 
-					          		classFull: (courses[course].subject).toLowerCase() + " " + courses[course].catalogNbr +"  " + courses[course].titleLong.toLowerCase()
+					          		classFull: (courses[course].subject).toLowerCase() + " " + courses[course].catalogNbr +" " + courses[course].titleLong.toLowerCase()
 					       		});
 					     	} else {
 					        	console.log("update class " + courses[course].subject + " " + courses[course].catalogNbr + "," + semesters[semester]);
@@ -156,7 +156,7 @@ if (Meteor.isServer) {
     }
 
   //COMMENT THESE OUT AFTER THE FIRST METEOR BUILD!!
-  // Classes.remove({});
-  // Subjects.remove({});
+  //Classes.remove({});
+  //Subjects.remove({});
   //initDB(true);
 }
