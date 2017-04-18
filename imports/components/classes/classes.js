@@ -23,7 +23,7 @@ class ClassCtrl {
     this.query = "";
 
     this.isHome = true;
-    
+
     this.subscribe('classes', () => [this.getReactively('query')]);
     this.subscribe('reviews', () => [this.getReactively('selectedClass')._id]);
 
@@ -69,6 +69,8 @@ class ClassCtrl {
 
   //update the values of the gauges when a class is selected
   updateGauges() {
+    console.log(this.isClassSelected);
+    console.log(this.selectedClass);
     if (this.isClassSelected == true) {
       //reviews will have only this class's reviews because of the subscribe
       var countGrade = 0;
@@ -78,8 +80,9 @@ class ClassCtrl {
       var gradeTranslation = ["C-", "C", "C+", "B-", "B", "B-", "A-", "A", "A+"];
 
       var allReviews = Reviews.find({});
-      console.log(allReviews);
-      if (allReviews.fetch() != []) {
+      console.log(allReviews.fetch().length =0);
+      if (allReviews.fetch().length != 0) {
+        console.log("1");
         allReviews.forEach(function(review) {
           count++;
           countGrade = countGrade + Number(review["grade"]);
@@ -87,21 +90,24 @@ class ClassCtrl {
           countQual = countQual + review["quality"];
         });
 
-        // console.log(countQual);
-        // console.log(countDiff);
-        // console.log(countGrade);
+        console.log(countQual);
+        console.log(countDiff);
+        console.log(countGrade);
 
-        // console.log((countQual/count).toFixed(1));
-        // console.log((countDiff/count).toFixed(1));
-        // console.log(Math.floor(countGrade/count) - 1);
         this.qual = (countQual/count).toFixed(1);
         this.diff = (countDiff/count).toFixed(1);
         this.grade = gradeTranslation[Math.floor(countGrade/count) - 1];
       } else {
+        console.log("2");
         this.qual = 0;
         this.diff = 0;
         this.grade = "-";
       }
+    } else {
+      console.log("3");
+        this.qual = 0;
+        this.diff = 0;
+        this.grade = "-";
     } 
   }
 }
