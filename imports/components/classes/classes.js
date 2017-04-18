@@ -21,7 +21,9 @@ class ClassCtrl {
     }
 
     this.query = "";
- 
+
+    this.isHome = true;
+    
     this.subscribe('classes', () => [this.getReactively('query')]);
     this.subscribe('reviews', () => [this.getReactively('selectedClass')._id]);
 

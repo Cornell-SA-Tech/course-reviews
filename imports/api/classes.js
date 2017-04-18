@@ -71,7 +71,8 @@ if (Meteor.isServer) {
 
 			}, 
 			{limit: 700});
-	  	} else {
+	  	}
+	  	else {
 	  		console.log("none");
 	  		return Classes.find({},
 	  		{limit: 700}); 
@@ -86,10 +87,14 @@ if (Meteor.isServer) {
 	
 	  		return Reviews.find({class : courseId},  
 			{limit: 700});
-	  	} else {
-	  		console.log("no class");
-	  		return Reviews.find({}); 
 	  	}
+	  	else {
+	  		return;
+	  	}
+	  	// else {
+	  	// 	console.log("no class");
+	  	// 	return Reviews.find({}); 
+	  	// }
   	});
 
     //adds all classes and subjects to the db

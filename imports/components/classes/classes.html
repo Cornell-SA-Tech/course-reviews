@@ -1,116 +1,131 @@
-<div class="row">
-  	<nav class="navbar navbar-default" role="navigation" id ="navbar">
-	  <!-- Brand and toggle get grouped for better mobile display -->
-	  <div class="navbar-header">
-	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	      <span class="sr-only">Toggle navigation</span>
-	      <span class="icon-bar"></span>
-	      <span class="icon-bar"></span>
-	      <span class="icon-bar"></span>
-	    </button>
-	    <a class="navbar-brand" href="#"> Cornell Reviews </a>
-	  </div>
-
-	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	    <div class="nav navbar-nav navbar-right col-sm-5 col-md-5">
-	        <form class="navbar-form" role="search">
-		        <div class="input-group" id="searchbar">
-		            <input ng-model="$ctrl.query" ng-change="$ctrl.selectedClass = {}; $ctrl.isClassSelected = false" type="text" class="form-control" placeholder="Search">
-		            <div class="input-group-btn">
-		                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-		            </div>
-		        </div>
-	        </form>
-	    </div>
-	        <!-- <form class="new-task" ng-submit="$ctrl.classes">
-			    <input ng-model="q" type="text" name="text" placeholder="Type to add new tasks"/>
-			</form> -->
-	    </div>
-	</nav>
+<!--show the homepage-->
+<div ng-show="$ctrl.isHome">
+	<!--COPY THE HOMEPAGE CODE HERE-->
+	<br>
+	<br>
+	<br>
+	<button ng-click="$ctrl.isHome = false"> switch pages</button> <!--move the ng-click="$ctrl.isHome = false" to the submit of the search-->
+	<br>
+	<br>
+	<br>
 </div>
-<div class="row">
-	<div class="col-md-6">
-		<header>
-		  <h1>Classes</h1>
-		  <div>Selected Class: {{$ctrl.selectedClass }}</div>
-		</header>
-		<div>
-			<ul>
-			  <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true; $ctrl.updateGauges()" ng-repeat="class in $ctrl.classes">
-			    {{class.classSub}} {{class.classNum}}: {{class.classTitle}}
-			  </li>
-			</ul>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class = "panel panel-default">
-		<div class = "panel-body">
-		  <section>
-		    <div class = "form-group"> 
-		    <h1>Student Ratings</h1>
-		    <div>
-				<div class = "panel panel-default">
-				  <div class = "panel-body">
-				    <section>
-				        <div class="row">
-				        	<div class="col-sm-4">
-							    <ng-gauge id="gauge1" type="arch" thick="10" size="200" cap="round" value="$ctrl.qual" label="Overall Quality">
-							    </ng-gauge> 
-				        		<!-- <ng-gauge id="gauge1" size="200" type="arch" thick="10" value="50" cap="round" ng-label="thing1"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge> -->
-				        	</div>
-				        	<div class="col-sm-4">
-				        		<ng-gauge id="gauge2" type="arch" thick="10" size="200" cap="round" value="$ctrl.diff" label="Level of Difficulty">
-							    </ng-gauge> 
-				        	</div>
-				        	<div class="col-sm-4">
-				        		<ng-gauge id="gauge3" type="arch" thick="10" size="200" cap="round" value="$ctrl.grade" label="Median Grade">
-							    </ng-gauge> 
-				        	</div>
-				        </div>
-				    </section>
-				  </div>
-				</div>
-			</div>
-		    <form ng-submit="$ctrl.addReview($ctrl.newReview, $ctrl.selectedClass._id)">
-		      <legend>Your Review:</legend>
-		      	<textarea ng-model="$ctrl.newReview.text" name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="10" cols="90" ></textarea>
-		      	<br>
 
-		      	Level of Difficulty: (1-5)<br>
-		  		<input ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1">
-		  		<br>
 
-		  		Overall Quality: (1-5)<br>
-		  		<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1">
-		  		<br>
+<!--show the rest of the app-->
+<div ng-show="!$ctrl.isHome">
+	<div class="row">
+	  	<nav class="navbar navbar-default" role="navigation" id ="navbar">
+		  <!-- Brand and toggle get grouped for better mobile display -->
+		  <div class="navbar-header">
+		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		      <span class="sr-only">Toggle navigation</span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		    </button>
+		    <a class="navbar-brand" href="#"> Cornell Reviews </a>
+		  </div>
 
-		  		Course Median Grade
-		  		<select ng-model="$ctrl.newReview.medGrade">
-		  			<option value="9">A+</option>
-		  			<option value="8">A</option>
-		  			<option value="7" selected>A-</option>
-		  			<option value="6">B+</option>
-		  			<option value="5">B</option>
-		  			<option value="4">B-</option>
-		  			<option value="3">C+</option>
-		  			<option value="2">C</option>
-		  			<option value="1">C-</option>
-		  		</select>
-		  		<br>
-		  		Attendence
-		    	<select ng-model="$ctrl.newReview.atten">
-		  			<option value="1" selected>Not Mandatory</option>
-		  			<option value="0">Mandatory</option>
-		  		</select>  
-		  		<br>
-		  		<input type="submit" value="Add Review!"></input>
-
-		      <br>
-		      <h2 style="font-size:80%;">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2>
-			  </form>
+		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		    <div class="nav navbar-nav navbar-right col-sm-5 col-md-5">
+		        <form class="navbar-form" role="search">
+			        <div class="input-group" id="searchbar">
+			            <input ng-model="$ctrl.query" ng-change="$ctrl.selectedClass = {}; $ctrl.isClassSelected = false" type="text" class="form-control" placeholder="Search">
+			            <div class="input-group-btn">
+			                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+			            </div>
+			        </div>
+		        </form>
 		    </div>
-		  </section>
+		        <!-- <form class="new-task" ng-submit="$ctrl.classes">
+				    <input ng-model="q" type="text" name="text" placeholder="Type to add new tasks"/>
+				</form> -->
+		    </div>
+		</nav>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<header>
+				<h1>Classes</h1>
+				<div>Selected Class: {{$ctrl.selectedClass }}</div>
+			</header>
+			<div>
+				<ul>
+				    <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true; $ctrl.updateGauges()" ng-repeat="class in $ctrl.classes">
+				    	{{class.classSub}} {{class.classNum}}: {{class.classTitle}}
+				    </li>
+				</ul>
+			</div>
 		</div>
+		<div class="col-md-6">
+			<div class = "panel panel-default">
+			<div class = "panel-body">
+			    <section>
+			    	<div class = "form-group"> 
+			    		<h1>Student Ratings</h1>
+		    			<div>
+							<div class = "panel panel-default">
+							    <div class = "panel-body">
+							    	<section>
+							        	<div class="row">
+							        		<div class="col-sm-4">
+										    	<ng-gauge id="gauge1" type="arch" thick="10" size="200" cap="round" value="$ctrl.qual" label="Overall Quality" append="/5">
+										    	</ng-gauge> 
+							        		</div>
+							        		<div class="col-sm-4">
+								        		<ng-gauge id="gauge2" type="arch" thick="10" size="200" cap="round" value="$ctrl.diff" label="Level of Difficulty" append="/5">
+											    </ng-gauge> 
+							        		</div>
+							        		<div class="col-sm-4">
+							        			<ng-gauge id="gauge3" type="arch" thick="10" size="200" cap="round" value="$ctrl.grade" label="Median Grade">
+							    				</ng-gauge> 
+				        					</div>
+				        				</div>
+				   					</section>
+				  				</div>
+							</div>
+						</div>
+			    		<form ng-submit="$ctrl.addReview($ctrl.newReview, $ctrl.selectedClass._id)">
+					        <legend>Your Review:</legend>
+					      	<textarea ng-model="$ctrl.newReview.text" name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="10" cols="90" ></textarea>
+					      	<br>
+
+					      	Level of Difficulty: (1-5)<br>
+					  		<input ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1">
+					  		<br>
+
+					  		Overall Quality: (1-5)<br>
+					  		<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1">
+					  		<br>
+
+					  		Course Median Grade:
+					  		<select ng-model="$ctrl.newReview.medGrade">
+					  			<option value="9">A+</option>
+					  			<option value="8">A</option>
+					  			<option value="7" selected>A-</option>
+					  			<option value="6">B+</option>
+					  			<option value="5">B</option>
+					  			<option value="4">B-</option>
+					  			<option value="3">C+</option>
+					  			<option value="2">C</option>
+					  			<option value="1">C-</option>
+					  		</select>
+					  		<br>
+					  		
+					  		Attendence:
+					    	<select ng-model="$ctrl.newReview.atten">
+					  			<option value="1" selected>Not Mandatory</option>
+					  			<option value="0">Mandatory</option>
+					  		</select>  
+					  		<br>
+
+					  		<input type="submit" value="Add Review!"></input>
+					        <br>
+					        <h2 style="font-size:80%;">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2>
+						</form>
+			        </div>
+			  </section>
+			</div>
 		</div>
 
 		<section>
@@ -123,31 +138,25 @@
 					<div class = "panel panel-default">
 						<div class= "panel-heading" id = "past">Name?</div>
 						<div class = "panel-body">
-						  <div class = "row">
-						    <div class = "col-sm-2">
-						      <div class = "panel panel-default">
-						      <div class = "panel-body">{{review.quality}}</div>
-						      </div>
-						      <div class = "panel panel-default">
-						      <div class = "panel-body">{{review.difficulty}}</div>
-						      </div>
+						    <div class = "row">
+						    	<div class = "col-sm-2">
+						      		<div class = "panel panel-default">
+						     			<div class = "panel-body">{{review.quality}}</div>
+						      		</div>
+						      		<div class = "panel panel-default">
+						      			<div class = "panel-body">{{review.difficulty}}</div>
+						      		</div>
+						    	</div>
+						    	<div class = "col-sm-2">
+						      		<div class = "panel-body"> Overall Quality</div>
+						      	    <div class = "panel-body"> Level of difficulty</div>
+						    	</div>
+						   		<div class = "col-sm-8">{{review.text}}</div>
 						    </div>
-						    <div class = "col-sm-2">
-						      <div class = "panel-body"> Overall Quality
-						      </div>
-						      <div class = "panel-body"> Level of difficulty
-						      </div>
-						    </div>
-						    <div class = "col-sm-8">{{review.text}}</div>
-						  </div>
-
 						</div>
 					</div>
 				</li>
 			</ul>
 		</div>
-		
-		
 	</div>
-
 </div>
