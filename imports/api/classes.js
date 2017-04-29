@@ -31,7 +31,8 @@ Reviews.schema = new SimpleSchema({
 	quality: {type: Number},
  	class: {type: String}, //ref to classId
  	grade: {type: Number},
- 	date: {type: Date}
+ 	date: {type: Date},
+ 	visible: {type: Number}
 });
 
 if (Meteor.isServer) {
@@ -54,7 +55,8 @@ if (Meteor.isServer) {
 	    	{ 'difficulty' : 1 },
 	    	{ 'quality' : 1 },
 	    	{ 'grade' : 1 },
-	    	{ 'user' : 1 }
+	    	{ 'user' : 1 },
+	    	{ 'visible' : 1 }
 	  	);
 	});
 
@@ -80,21 +82,24 @@ if (Meteor.isServer) {
   	});
 
     //publish visible reviews based on selected course 
-	Meteor.publish('reviews', function validReviews(courseId) {
+	Meteor.publish('reviews', function validReviews(courseId, visiblity) {
 	  	console.log(courseId);
-	  	if (courseId != undefined && courseId != "") {
-	  		console.log("a class");
-	
-	  		return Reviews.find({class : courseId},  
+	  	//show valid reviews for this course
+	  	if (courseId != undefined && courseId != "" && visiblity == 1) {
+	  		//console.log("class");
+	  		return Reviews.find({class : courseId, visible : 1},  
 			{limit: 700});
-	  	}
-	  	else {
+	  	} else if (courseId != undefined && courseId != "" && visiblity == 0) { //invalidated reviews for a class
+	  		console.log("a class");
+	  		return Reviews.find({class : courseId, visible : 0},  
+			{limit: 700});
+	  	} if (visiblity == 0) { //all invalidated reviews
+	  		console.log("a class");
+	  		return Reviews.find({visible : 0},  
+			{limit: 700});
+	  	} else { //no reviews
 	  		return;
 	  	}
-	  	// else {
-	  	// 	console.log("no class");
-	  	// 	return Reviews.find({}); 
-	  	// }
   	});
 
     //adds all classes and subjects to the db

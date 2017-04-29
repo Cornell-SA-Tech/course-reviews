@@ -25,7 +25,7 @@ class ClassCtrl {
     this.isHome = true;
 
     this.subscribe('classes', () => [this.getReactively('query')]);
-    this.subscribe('reviews', () => [this.getReactively('selectedClass')._id]);
+    this.subscribe('reviews', () => [this.getReactively('selectedClass')._id, 1]);
 
     //gauge options https://ashish-chopra.github.io/angular-gauge/
     this.qual = 0;
@@ -53,7 +53,8 @@ class ClassCtrl {
         quality: review.quality,
         class: classId,
         grade: review.medGrade,
-        date: new Date()
+        date: new Date(),
+        visible: 0
       });
 
       //clear the review 
