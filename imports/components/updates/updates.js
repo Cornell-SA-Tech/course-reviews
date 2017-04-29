@@ -1,16 +1,30 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import gauges from 'angularjs-gauge';
-import { HTTP } from 'meteor/http'
-import { Classes} from '../../api/classes.js';
-import { Subjects } from '../../api/classes.js';
 import template from './updates.html';
+import { Classes } from '../../api/classes.js';
+import { Reviews } from '../../api/classes.js';
 
 class UpdatesCtrl {
   constructor($scope) {
     $scope.viewModel(this);
 
-    this.subscribe('classes', () => [null]);
+    this.subscribe('reviews', () => [null, 0]);
+
+    this.helpers({
+      reviews() {
+        return Reviews.find({});
+      }
+    })
+  }
+
+  //change the visibility of the clicked review
+  makeVisible(review) {
+    Reviews.update(review._id, {$set: { visible: 1} });
+  }
+
+  remove(review) {
+    Reviews.remove({ _id: review._id});
   }
 }
  

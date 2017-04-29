@@ -1,83 +1,40 @@
+<!--allows user to approve/delete incoming reviews-->
 <div class = "panel panel-default">
   <div class = "panel-body">
-    <h1>Add a Review</h1>
+    <h1>Edit Reviews</h1>
   </div>
 </div>
 
 <div class = "panel panel-default">
-  <div class = "panel-body">
-    <section>
-        <div class="row">
-        	<div class="col-sm-4" >
-        		<ng-gauge id="gauge1" size="200" type="arch" thick="10" ng-value="g1.value" cap="round" ng-label="g1.label"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
-        	</div>
-        	<div class="col-sm-4">
-        		<ng-gauge id="gauge2" size="200" type="arch" thick="10" value="68.2" cap="round" label="thing2"  foreground-color="#ffcc66" background-color="#ECECEC" ></ng-gauge>
-        	</div>
-        	<div class="col-sm-4">
-        		<ng-gauge id="gauge3" size="200" type="arch" thick="10" value="" cap="round" label="thing3"  foreground-color="#ffcc66" background-color="#ECECEC"></ng-gauge>
-        	</div>
-        </div>
-    </section>
-  </div>
-</div>
-
-
-<div class = "panel panel-default">
-<div class = "panel-body">
-  <section>
-    <div class = "form-group"> 
-    <h1>Student Ratings</h1>
-    <form onsubmit="conjoin(this['feedback'], this['diff'], this['qual'])">
-      <legend>Your Review:</legend>
-      	<textarea name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="10" cols="90" ></textarea>
-      	<br>
-
-      	Level of Difficulty: (1-5)<br>
-  		<input type="range" id="a1" name="diff" min="1" max="5" step="1">
-  		<br>
-
-  		Overall Quality: (1-5)<br>
-  		<input type="range" id="a2" name="qual" min="1" max="5" step="1">
-  		<br>
-
-    	<input type="submit" value="Submit">
-
-      <br>
-      <h2 style="font-size:80%;">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2>
-	  </form>
+  <!--repeat this code for as many reviews as present-->
+  <div>
+      <ul>
+        <li ng-click="" ng-repeat="review in $ctrl.reviews">
+          <!--repeat this code for as many reviews as present-->
+          <div class = "panel panel-default">
+            <div class= "panel-heading" id = "past"></div>
+            <div class = "panel-body">
+                <div class = "row">
+                  <div class = "col-sm-2">
+                      <div class = "panel panel-default">
+                        <div class = "panel-body">{{review.quality}}</div>
+                      </div>
+                      <div class = "panel panel-default">
+                        <div class = "panel-body">{{review.difficulty}}</div>
+                      </div>
+                  </div>
+                  <div class = "col-sm-2">
+                      <div class = "panel-body"> Overall Quality</div>
+                      <div class = "panel-body"> Level of difficulty</div>
+                  </div>
+                  <div class = "col-sm-8">{{review.text}}</div>
+                  <button ng-click="$ctrl.makeVisible(review)""> Confirm Review</button> 
+                  <button ng-click="$ctrl.remove(review)""> Remove Review</button> 
+                </div>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
-  </section>
-</div>
 </div>
 
-<section>
-	<h1>Past Reviews</h1>
-</section>
-
-<!--repeat this code for as many reviews as present-->
-<div class = "panel panel-default">
-<div class= "panel-heading" id = "past"> Reviewer Name </div>
-<div class = "panel-body">
-  <div class = "row">
-    <div class = "col-sm-2">
-      <div class = "panel panel-default">
-      <div class = "panel-body"> 3.0
-      </div>
-      </div>
-      <div class = "panel panel-default">
-      <div class = "panel-body"> 4.0
-      </div>
-      </div>
-    </div>
-    <div class = "col-sm-2">
-      <div class = "panel-body"> Overall Quality
-      </div>
-      <div class = "panel-body"> Level of difficulty
-      </div>
-    </div>
-    <div class = "col-sm-8"> sample review goes here </div>
-  </div>
-
-</div>
-</div>

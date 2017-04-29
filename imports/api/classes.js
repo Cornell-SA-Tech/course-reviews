@@ -84,6 +84,7 @@ if (Meteor.isServer) {
     //publish visible reviews based on selected course 
 	Meteor.publish('reviews', function validReviews(courseId, visiblity) {
 	  	console.log(courseId);
+	  	console.log(visiblity);
 	  	//show valid reviews for this course
 	  	if (courseId != undefined && courseId != "" && visiblity == 1) {
 	  		//console.log("class");
