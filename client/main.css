@@ -48,6 +48,65 @@ h1 {
     margin-right: 1em;
 }
  
+.class-name {
+    font-size: 36px;
+    font-family: 'Helvetica Neue';
+    font-weight: medium;
+}
+
+.subheader {
+    font-size: 27px;
+    font-family: 'Helvetica Neue';
+    font-weight: medium;
+}
+
+.primary-text {
+    font-size: 18px;
+    font-family: 'Helvetica Neue';
+    font-weight: bold;
+}
+
+
+.secondary-text {
+    font-size: 14px;
+    font-family: 'Helvetica Neue';
+    font-weight: normal;
+}
+
+.review-container {
+    border: 2px solid #a4a4a4;
+    padding: 10px 40px; 
+    background: #fff;
+    width: 890px;
+    border-radius: 15px;
+}
+
+.review-container .text {
+    font-size: 16px;
+    font-family: 'Helvetica Neue';
+    font-weight: normal;
+    color: #4A4A4A;
+}
+
+div.inline {
+    float:left;
+}
+
+/*.container{
+  padding: 10px
+  border: 1px solid silver
+}
+
+.container .text{
+  resize: none;
+  outline: none;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  height: 100%;
+  margin: -10px;
+}*/
+
 form {
     margin-top: 10px;
     margin-bottom: -10px;
@@ -111,10 +170,37 @@ header .hide-completed {
     float: right;
 }
  
+hr {
+    border-width: 3px;
+ }
+
 .toggle-private {
     margin-left: 5px;
 }
- 
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 75%;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    background-color: #4990E2;
+    border-radius: 15px;
+    height: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+     -webkit-appearance: none;
+    box-shadow: 3px 1px 3px #000000;
+    background-color: #000000;
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
 @media (max-width: 600px) {
     li {
         padding: 12px 15px;

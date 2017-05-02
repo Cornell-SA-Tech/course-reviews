@@ -167,7 +167,7 @@ if (Meteor.isServer) {
     }
 
   //COMMENT THESE OUT AFTER THE FIRST METEOR BUILD!!
-  //Classes.remove({});
-  //Subjects.remove({});
-  //initDB(true);
+  // Classes.remove({});
+  // Subjects.remove({});
+  // initDB(true);
 }

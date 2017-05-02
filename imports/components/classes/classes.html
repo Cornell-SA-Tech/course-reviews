@@ -59,7 +59,7 @@
 			<div class = "panel-body">
 			    <section>
 			    	<div class = "form-group"> 
-			    		<h1>Student Ratings</h1>
+			    		<h1 class="subheader">Student Ratings</h1>
 		    			<div>
 							<div class = "panel panel-default">
 							    <div class = "panel-body">
@@ -83,17 +83,23 @@
 							</div>
 						</div>
 			    		<form ng-submit="$ctrl.addReview($ctrl.newReview, $ctrl.selectedClass._id)">
-					        <legend>Your Review:</legend>
-					      	<textarea ng-model="$ctrl.newReview.text" name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="10" cols="90" ></textarea>
+					        <legend class="subheader">Your Review:</legend>
+
+					        <div class = "review-container">
+					      	<textarea class = "text" ng-model="$ctrl.newReview.text" name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="10" cols="120" style="border: none"></textarea>
 					      	<br>
+					      	<hr>
 
-					      	Level of Difficulty: (1-5)<br>
-					  		<input ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1">
+					      	
+					  		<div style="display: inline" class="secondary-text"> Overall Quality:</div>
+					  		<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1" style="display: inline;">
 					  		<br>
 
-					  		Overall Quality: (1-5)<br>
-					  		<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1">
+
+					  		<div style="display: inline;" class="secondary-text">Level of Difficulty:</div>
+					  		<input style="display: inline;" ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1">
 					  		<br>
+					  		
 
 					  		Course Median Grade:
 					  		<select ng-model="$ctrl.newReview.medGrade">
@@ -118,8 +124,10 @@
 
 					  		<input type="submit" value="Add Review!"></input>
 					        <br>
+					        </div>
 					        <h2 style="font-size:80%;">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2>
 						</form>
+
 			        </div>
 			  </section>
 			</div>
@@ -148,7 +156,7 @@
 						      		<div class = "panel-body"> Overall Quality</div>
 						      	    <div class = "panel-body"> Level of difficulty</div>
 						    	</div>
-						   		<div class = "col-sm-8">{{review.text}}</div>
+						   		<div class = "review-text">{{review.text}}</div>
 						    </div>
 						</div>
 					</div>
