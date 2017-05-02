@@ -23,11 +23,11 @@
 		      <span class="icon-bar"></span>
 		      <span class="icon-bar"></span>
 		    </button>
-		    <a class="navbar-brand" href="#"> Cornell Reviews </a>
+		    <a class="navbar-brand" href="#" style="color:white"> Cornell Reviews </a>
 		  </div>
 
 		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		    <div class="nav navbar-nav navbar-right col-sm-5 col-md-5">
+		    <div class="nav navbar-nav navbar-right col-sm-5 col-md-5" >
 		        <form class="navbar-form" role="search">
 			        <div class="input-group" id="searchbar">
 			            <input ng-model="$ctrl.query" ng-change="$ctrl.selectedClass = {}; $ctrl.isClassSelected = false" type="text" class="form-control" placeholder="Search">
@@ -43,7 +43,7 @@
 	<div class="row">
 		<div class="col-md-6">
 			<header>
-				<h1>Classes</h1>
+				<h1 class="subheader">Popular Classes</h1>
 				<!-- <div>Selected Class: {{$ctrl.selectedClass }}</div> -->
 			</header>
 			<div>
@@ -55,7 +55,7 @@
 			</div>
 		</div>
 		<div class="col-md-6">
-			<div class = "panel panel-default">
+			<div class = "panel panel-default" style="background-color: rgba(74,74,74,.1);">
 			<div class = "panel-body">
 			    <section>
 			    	<div class = "form-group"> 
@@ -66,15 +66,15 @@
 							    	<section>
 							        	<div class="row">
 							        		<div class="col-sm-4">
-										    	<ng-gauge id="gauge1" type="arch" thick="10" size="200" cap="round" value="$ctrl.qual" label="Overall Quality" append="/5">
+										    	<ng-gauge id="gauge1" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" label="Overall Quality" append="/5">
 										    	</ng-gauge> 
 							        		</div>
 							        		<div class="col-sm-4">
-								        		<ng-gauge id="gauge2" type="arch" thick="10" size="200" cap="round" value="$ctrl.diff" label="Level of Difficulty" append="/5">
+								        		<ng-gauge id="gauge2" type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" label="Level of Difficulty" append="/5">
 											    </ng-gauge> 
 							        		</div>
 							        		<div class="col-sm-4">
-							        			<ng-gauge id="gauge3" type="arch" thick="10" size="200" cap="round" value="$ctrl.grade" label="Median Grade">
+							        			<ng-gauge id="gauge3" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" label="Median Grade">
 							    				</ng-gauge> 
 				        					</div>
 				        				</div>
@@ -82,37 +82,50 @@
 				  				</div>
 							</div>
 						</div>
+
+
 			    		<form ng-submit="$ctrl.addReview($ctrl.newReview, $ctrl.selectedClass._id)">
 					        <legend class="subheader">Your Review:</legend>
 
 					        <div class = "review-container">
-					      	<textarea class = "text" ng-model="$ctrl.newReview.text" name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="10" cols="120" style="border: none"></textarea>
+					      	<textarea class = "text" ng-model="$ctrl.newReview.text" name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" rows="5" cols="50" style="border: none"></textarea>
 					      	<br>
 					      	<hr>
 
+							<script>
+        						function update() {
+    								document.getElementById("q").innerHTML = document.getElementById("a2").value;
+    								document.getElementById("d").innerHTML = document.getElementById("a1").value;
+								}</script>
 					      	
-					  		<div style="display: inline" class="secondary-text"> Overall Quality:</div>
-					  		<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1" style="display: inline;">
+					  		<h1 style="display: inline" class="secondary-text"> Overall Quality</h1>
+					  		<div id="small-icon"> 
+					  		<p id="q" align="center" style="color:white;">3</p>
+					  		</div>
+					  		<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1" style="display: inline;" onchange="update()">
 					  		<br>
 
 
-					  		<div style="display: inline;" class="secondary-text">Level of Difficulty:</div>
-					  		<input style="display: inline;" ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1">
+					  		<h1 style="display: inline;" class="secondary-text">Level of Difficulty</h1>
+					  		<div id="small-icon">
+					  		<p id="d" align="center" style="color:white;">3</p>
+					  		</div>
+					  		<input style="display: inline;" ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1" onchange="update()">
 					  		<br>
-					  		
+					  		<br>
 
-					  		Course Median Grade:
+					  		Class Median
 					  		<select ng-model="$ctrl.newReview.medGrade">
-					  			<option value="9">A+</option>
-					  			<option value="8">A</option>
-					  			<option value="7" selected>A-</option>
-					  			<option value="6">B+</option>
-					  			<option value="5">B</option>
+  								<option value="9">A+</option>
+ 							    <option value="8">A</option>
+                                <option value="7">A-</option>
+                                <option value="6" selected>B+</option>
+                                <option value="5">B</option>
 					  			<option value="4">B-</option>
 					  			<option value="3">C+</option>
 					  			<option value="2">C</option>
 					  			<option value="1">C-</option>
-					  		</select>
+							</select>
 					  		<br>
 					  		
 					  		Attendence:
@@ -120,12 +133,14 @@
 					  			<option value="1" selected>Not Mandatory</option>
 					  			<option value="0">Mandatory</option>
 					  		</select>  
+
+					  		</div>
 					  		<br>
 
-					  		<input type="submit" value="Add Review!"></input>
-					        <br>
-					        </div>
-					        <h2 style="font-size:80%;">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2>
+					  		<div class="caption_wrapper">
+					  		<h2  class="secondary-text">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2></div>
+					  		<input style="display: inline;" type="submit" value="Post"></input>
+					        
 						</form>
 
 			        </div>
