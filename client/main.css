@@ -76,6 +76,8 @@ h1 {
     font-size: 14px;
     font-family: 'Helvetica Neue';
     font-weight: normal;
+    color: #4A4A4A;
+    opacity: .5;
 }
 
 .review-container {
@@ -161,8 +163,8 @@ header .hide-completed {
 }
  
 .divider {
-    border-width: 3px;
-    color: #fff;
+    border-width: 1px;
+    color: #ddd;
     margin-top: 5px;
     margin-bottom: 10px;
  }
@@ -222,9 +224,8 @@ input[type="submit"]:active{
 }
 
 .fix-contain {
-/*    padding-left: 0px;
-    padding-right: 0px;*/
-    padding: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 .no-border {
@@ -259,6 +260,13 @@ div.large-icon {
     height: 52px;
     border-radius: 8px;
 }
+.review-container {
+    width: 100%;
+}
+
+select {
+    width:150px;
+    }
 
 @media (max-width: 600px) {
     li {

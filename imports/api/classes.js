@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { HTTP } from 'meteor/http';
+import { check } from 'meteor/check';
 //import { SimpleSchema } from 'meteor/simpleschema';
 
 //define database objects
@@ -35,11 +36,27 @@ Reviews.schema = new SimpleSchema({
  	visible: {type: Number}
 });
 
+// defines all methods that will be editing the database so that database changes occur 
+// only on the server
+// Meteor.methods({
+// 	"reviews.insert" (review) {
+// 		if (review.text != null && review.diff != null && review.quality != null && review.medGrade != null && classId != undefined && classId != null) {
+// 		//   Reviews.insert({
+// 		//     text: review.text,
+// 		//     difficulty: review.diff,
+// 		//     quality: review.quality,
+// 		//     class: classId,
+// 		//     grade: review.medGrade,
+// 		//     date: new Date(),
+// 		//     visible: 0
+// 		});
+// 	}
+// })
+
+// This code only runs on the server
 if (Meteor.isServer) {
-    // This code only runs on the server
     Meteor.startup(() => {
 	  // code to run on server at startup
-
 	  //add indexes
 	  Classes._ensureIndex(
 	        { 'classSub' : 1 },
@@ -60,6 +77,7 @@ if (Meteor.isServer) {
 	  	);
 	});
 
+    //code that runs whenever needed
     //publish visible classes based on search query
     Meteor.publish('classes', function validClasses(searchString) {
 	  	console.log(searchString);
@@ -85,22 +103,26 @@ if (Meteor.isServer) {
 	Meteor.publish('reviews', function validReviews(courseId, visiblity) {
 	  	console.log(courseId);
 	  	console.log(visiblity);
+	  	var ret = null
 	  	//show valid reviews for this course
 	  	if (courseId != undefined && courseId != "" && visiblity == 1) {
-	  		//console.log("class");
-	  		return Reviews.find({class : courseId, visible : 1},  
-			{limit: 700});
+	  		console.log("checked reviews for a class");
+	  		ret =  Reviews.find({class : courseId, visible : 1}, {limit: 700});
 	  	} else if (courseId != undefined && courseId != "" && visiblity == 0) { //invalidated reviews for a class
-	  		console.log("a class");
-	  		return Reviews.find({class : courseId, visible : 0},  
+	  		console.log("unchecked reviews for a class");
+	  		ret =  Reviews.find({class : courseId, visible : 0},  
 			{limit: 700});
-	  	} if (visiblity == 0) { //all invalidated reviews
-	  		console.log("a class");
-	  		return Reviews.find({visible : 0},  
-			{limit: 700});
-	  	} else { //no reviews
-	  		return;
+	  	} else if (visiblity == 0) { //all invalidated reviews
+	  		console.log("all unchecked reviews");
+	  		ret =  Reviews.find({visible : 0}, {limit: 700});
+	  	} else { //no reviews 
+	  		console.log("no reviews");
+	  		//will always be empty because visible is 0 or 1. allows meteor to still send the ready 
+	  		//flag when a new publication is sent
+	  		ret = Reviews.find({visible : 10}); 
 	  	}
+	  	//console.log(ret.fetch())
+	  	return ret
   	});
 
     //adds all classes and subjects to the db
