@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { HTTP } from 'meteor/http';
+import { check } from 'meteor/check';
 //import { SimpleSchema } from 'meteor/simpleschema';
 
 //define database objects
@@ -35,11 +36,27 @@ Reviews.schema = new SimpleSchema({
  	visible: {type: Number}
 });
 
+// defines all methods that will be editing the database so that database changes occur 
+// only on the server
+// Meteor.methods({
+// 	"reviews.insert" (review) {
+// 		if (review.text != null && review.diff != null && review.quality != null && review.medGrade != null && classId != undefined && classId != null) {
+// 		//   Reviews.insert({
+// 		//     text: review.text,
+// 		//     difficulty: review.diff,
+// 		//     quality: review.quality,
+// 		//     class: classId,
+// 		//     grade: review.medGrade,
+// 		//     date: new Date(),
+// 		//     visible: 0
+// 		});
+// 	}
+// })
+
+// This code only runs on the server
 if (Meteor.isServer) {
-    // This code only runs on the server
     Meteor.startup(() => {
 	  // code to run on server at startup
-
 	  //add indexes
 	  Classes._ensureIndex(
 	        { 'classSub' : 1 },
@@ -60,6 +77,7 @@ if (Meteor.isServer) {
 	  	);
 	});
 
+    //code that runs whenever needed
     //publish visible classes based on search query
     Meteor.publish('classes', function validClasses(searchString) {
 	  	console.log(searchString);
@@ -103,7 +121,7 @@ if (Meteor.isServer) {
 	  		//flag when a new publication is sent
 	  		ret = Reviews.find({visible : 10}); 
 	  	}
-	  	console.log(ret.fetch())
+	  	//console.log(ret.fetch())
 	  	return ret
   	});
 
