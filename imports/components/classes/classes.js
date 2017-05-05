@@ -38,7 +38,7 @@ class ClassCtrl {
     //when a new class is selected, update the reviews that are returned by the database and update the gauges
     this.subscribe('reviews', () => [(this.getReactively('selectedClass'))._id, 1], {
       //callback function, should only run once the reveiws collection updates, BUT ISNT 
-      //seems to be combining the previously clicked class's reviews into the collection??
+      //seems to be combining the previously clicked class's reviews into the collection
       onReady: function() {
         console.log("class is: ", this.selectedClass);
         if (this.isClassSelected == true) { //will later need to check that the side window is open
