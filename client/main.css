@@ -22,7 +22,6 @@ a.navbar-brand {
     font-size: 36px;
     font-family: 'Helvetica Neue';
     font-weight: medium;
-    line-height: 75%;
 }
 
 #searchbar {
@@ -30,8 +29,6 @@ a.navbar-brand {
 }
 
 .container {
-    margin: 0 auto;
-    min-height: 100%;
     background: white;
 }
  
@@ -85,7 +82,6 @@ h1 {
     border: 2px solid #a4a4a4;
     padding: 10px 40px; 
     background: #fff;
-    width: 700px;
     border-radius: 15px;
 }
 
@@ -98,26 +94,8 @@ h1 {
 
 div.caption_wrapper {
     text-align: left;
-    width: 500px;
     display: inline-block;
 }
-
-
-
-/*.container{
-  padding: 10px
-  border: 1px solid silver
-}
-
-.container .text{
-  resize: none;
-  outline: none;
-  width: 100%;
-  padding: 10px;
-  border: none;
-  height: 100%;
-  margin: -10px;
-}*/
 
 form {
     margin-top: 10px;
@@ -198,7 +176,6 @@ input[type="range"] {
 
 input[type=range]::-webkit-slider-runnable-track {
     height: 10px;
-    background: repeating-linear-gradient(90deg, #3399ff, #3399ff 100px, #fff 100px, #fff 105px) no-repeat 50% 50%;
     background-color: #4990E2;
     border-radius: 15px;
 
@@ -237,15 +214,14 @@ input[type="submit"]:active{
     text-align: center;
 }
 
-#small-icon {
+div.small-icon {
     width: 35px;
     height: 33px;
     border-radius: 8px;
     background: black;
-    display: inline-block;
     }
 
-#large-icon {
+div.large-icon {
     width: 58px;
     height: 52px;
     border-radius: 8px;
