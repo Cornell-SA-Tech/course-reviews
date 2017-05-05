@@ -48,7 +48,7 @@
 			</header>
 			<div>
 				<ul>
-				    <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true; $ctrl.updateGauges()" ng-repeat="class in $ctrl.classes">
+				    <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true; updateGauges" ng-repeat="class in $ctrl.classes">
 				    	{{class.classSub}} {{class.classNum}}: {{class.classTitle}}
 				    </li>
 				</ul>

@@ -250,6 +250,9 @@ input[type="submit"]:active{
     height: 52px;
     border-radius: 8px;
 }
+.review-container {
+    width: 100%;
+}
 
 @media (max-width: 600px) {
     li {
