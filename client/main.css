@@ -13,9 +13,9 @@ body {
  
     font-size: 14px;
 }
-#navbar{
+.navbar{
     background-color: #3399ff;
-    height: 70px;
+    margin-bottom: 0px;
 }
 
 a.navbar-brand {
@@ -76,6 +76,8 @@ h1 {
     font-size: 14px;
     font-family: 'Helvetica Neue';
     font-weight: normal;
+    color: #4A4A4A;
+    opacity: .5;
 }
 
 .review-container {
@@ -160,8 +162,11 @@ header .hide-completed {
     float: right;
 }
  
-hr {
-    border-width: 3px;
+.divider {
+    border-width: 1px;
+    color: #ddd;
+    margin-top: 5px;
+    margin-bottom: 10px;
  }
 
 .toggle-private {
@@ -214,6 +219,35 @@ input[type="submit"]:active{
     text-align: center;
 }
 
+.panel-container {
+    background-color: rgba(74,74,74,.06);
+}
+
+.fix-contain {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.no-border {
+    border-color: rgba(221,221,221,0);
+}
+
+.no-background {
+    background-color: rgba(221,221,221,0);
+}
+
+div.sm-spacing {
+    padding: 10px;
+}
+
+div.med-spacing {
+    padding: 20px;
+}
+
+div.lrg-spacing {
+    padding: 40px;
+}
+
 div.small-icon {
     width: 35px;
     height: 33px;
@@ -229,6 +263,10 @@ div.large-icon {
 .review-container {
     width: 100%;
 }
+
+select {
+    width:150px;
+    }
 
 @media (max-width: 600px) {
     li {
