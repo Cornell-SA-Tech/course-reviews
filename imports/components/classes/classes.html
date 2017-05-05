@@ -77,7 +77,7 @@
 							        			<ng-gauge id="gauge3" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" label="Median Grade">
 							    				</ng-gauge> 
 				        					</div>
-				        				</div>
+				        				</div> 
 				   					</section>
 				  				</div>
 							</div>
@@ -92,23 +92,17 @@
 					      	</div>
 					      	<hr>
 
-							<script>
-        						function update() {
-    								document.getElementById("q").innerHTML = document.getElementById("a2").value;
-    								document.getElementById("d").innerHTML = document.getElementById("a1").value;
-
-								}</script>
 					      	<div class="panel-body">
 					      	<div class="row">
 					      	<div class="col-sm-2">
 					  			<h1 class="secondary-text">Overall Quality</h1>
 					  		</div>
 					  		<div class="col-sm-2">
-					  			<div class="small-icon" id="sm1"> 
-					  				<p id="q" align="center" style="color:white;">{{$ctrl.newReview.quality}}</p>
+					  			<div class="small-icon" id="sm1" style="color:white; background-color: #A0D53F;justify-content: center; display: flex; align-items: center;" ng-style="qColor">
+					  			<p style="margin:0">{{$ctrl.newReview.quality}}</p>
 					  			</div>
 					  		</div>
-					  		<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1" onchange="update()">
+					  		<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1" ng-change="qColor = $ctrl.qualColor($ctrl.newReview.quality)">
 					  		</div>
 					  		<br>
 
@@ -116,11 +110,11 @@
 					  			<h1 class="secondary-text">Level of Difficulty</h1>
 					  		</div>
 					  		<div class="col-sm-2">
-						  		<div class="small-icon" id="sm2">
-						  			<p id="d" align="center" style="color:white;">{{$ctrl.newReview.diff}}</p>
+						  		<div class="small-icon" id="sm2" style="color:white; background-color: #A0D53F;justify-content: center; display: flex; align-items: center;" ng-style="dColor">
+						  			<p style="margin:0">{{$ctrl.newReview.diff}}</p>
 						  		</div>
 					  		</div>
-					  		<input ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1" onchange="update()">
+					  		<input ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1" ng-change="dColor = $ctrl.diffColor($ctrl.newReview.diff)">
 					  		<br>
 					  		<br>
 					  		Class Median

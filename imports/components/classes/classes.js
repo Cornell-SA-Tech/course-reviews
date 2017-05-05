@@ -89,8 +89,8 @@ class ClassCtrl {
       reviews() {
         return Reviews.find({});
       }        
-  });
-}
+    });
+  }
   // Insert a new review to the collection. NO SECURITY
   addReview(review, classId) {
     console.log(review);
@@ -115,6 +115,16 @@ class ClassCtrl {
         atten: null
       }
     }
+  }
+
+  diffColor(value) {
+    var col = ["#53B227","#53B227", "#A0D53F", "#FF9E00", "#E64458"]
+    return {'background-color': col[value -1 ]};
+  }
+
+  qualColor(value) {
+    var col = ["#E64458", "#E64458", "#FF9E00", "#A0D53F", "#53B227"]
+    return {'background-color': col[value -1 ]};
   }
 }
  
