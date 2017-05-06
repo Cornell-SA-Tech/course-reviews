@@ -20,11 +20,13 @@ class UpdatesCtrl {
 
   //change the visibility of the clicked review
   makeVisible(review) {
-    Reviews.update(review._id, {$set: { visible: 1} });
+    //Reviews.update(review._id, {$set: { visible: 1} });
+    Meteor.call('makeVisible', review)
   }
 
   remove(review) {
-    Reviews.remove({ _id: review._id});
+    //Reviews.remove({ _id: review._id})
+    Meteor.call('removeReview', review)
   }
 }
  

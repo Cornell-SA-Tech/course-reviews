@@ -91,20 +91,13 @@ class ClassCtrl {
       }        
     });
   }
-  // Insert a new review to the collection. NO SECURITY
+  // Insert a new review to the collection. 
   addReview(review, classId) {
-    console.log(review);
-    console.log(classId);
+    console.log(review)
+    console.log(classId)
     if (review.text != null && review.diff != null && review.quality != null && review.medGrade != null && classId != undefined && classId != null) {
-      Reviews.insert({
-        text: review.text,
-        difficulty: review.diff,
-        quality: review.quality,
-        class: classId,
-        grade: review.medGrade,
-        date: new Date(),
-        visible: 0
-      });
+      //call insert function defined on the server to change the database for more security. Make it a varible to run syncronously
+      var justAVarToMakeThisSync = Meteor.call('insert', review, classId)
 
       //clear the review 
       this.newReview = {
@@ -114,14 +107,19 @@ class ClassCtrl {
         medGrade: null,
         atten: null
       }
+
+      //give success message 
+      return "Thanks! Your review is pending approval."
     }
   }
 
+  //return an object with CSS stlying for the background of the difficulty slider value
   diffColor(value) {
     var col = ["#53B227","#53B227", "#A0D53F", "#FF9E00", "#E64458"]
     return {'background-color': col[value -1 ]};
   }
 
+  //return an object with CSS stlying for the background o slider value
   qualColor(value) {
     var col = ["#E64458", "#E64458", "#FF9E00", "#A0D53F", "#53B227"]
     return {'background-color': col[value -1 ]};

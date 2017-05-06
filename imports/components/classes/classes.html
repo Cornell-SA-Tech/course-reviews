@@ -84,7 +84,7 @@
 							</div>
 
 
-				    		<form ng-submit="$ctrl.addReview($ctrl.newReview, $ctrl.selectedClass._id)">
+				    		<form ng-submit="message = $ctrl.addReview($ctrl.newReview, $ctrl.selectedClass._id)">
 						        <legend class="subheader">Your Review:</legend>
 						        <div class = "panel panel-default">
 						        	<div class="panel-body">
@@ -159,16 +159,21 @@
 								  		</div>
 								  	</div>
 						  		</div>
-							</form>
 
-							<div class="row">
-								<div class="col-md-8">
-					  				<h2  class="secondary-text">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2>
-					  			</div>
-					  			<div class="col-md-4">
-					  				<input type="submit" value="Post">
-					  			</div>
-					  		</div>
+								<div class="row">
+									<div class="col-md-8">
+						  				<h2  class="secondary-text">All posts are completely anonymous to ensure constructive, honest feedback. You must have previously been enrolled in the class to give feedback</h2>
+						  			</div>
+						  			<div class="col-md-4">
+						  				<input type="submit" value="Post">
+						  			</div>
+						  		</div>
+						  		<div class="row">
+						  			<div class="col-sm-12">
+										<h2  class="secondary-text">{{message}}</h2>
+						  			</div>
+						  		</div>
+						  	</form>
 						</div>
 				    </section>
 				</div>
