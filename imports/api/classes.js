@@ -36,22 +36,53 @@ Reviews.schema = new SimpleSchema({
  	visible: {type: Number}
 });
 
-// defines all methods that will be editing the database so that database changes occur 
-// only on the server
-// Meteor.methods({
-// 	"reviews.insert" (review) {
-// 		if (review.text != null && review.diff != null && review.quality != null && review.medGrade != null && classId != undefined && classId != null) {
-// 		//   Reviews.insert({
-// 		//     text: review.text,
-// 		//     difficulty: review.diff,
-// 		//     quality: review.quality,
-// 		//     class: classId,
-// 		//     grade: review.medGrade,
-// 		//     date: new Date(),
-// 		//     visible: 0
-// 		});
-// 	}
-// })
+// defines all methods that will be editing the database so that database changes occur only on the server
+Meteor.methods({
+	//insert a new review into the reviews database
+	insert: function(review, classId) {
+		if (review.text != null && review.diff != null && review.quality != null && review.medGrade != null && classId != undefined && classId != null) {
+			var regex = new RegExp(/^(?=.*[A-Z0-9])[\w:;.,!()"'\/$ ]+$/i)
+			console.log(regex.test(review.text))
+			if (regex.test(review.text)) {
+				console.log("passed")
+			  	Reviews.insert({
+				    text: review.text,
+				    difficulty: review.diff,
+				    quality: review.quality,
+				    class: classId,
+				    grade: review.medGrade,
+				    date: new Date(),
+				    visible: 0
+				})
+				return 1
+			} else {
+				return 0
+			}
+		} else {
+			return 0
+		}
+	},
+	//make the reveiw with this id visible. check to make sure the id is a real id
+	makeVisible: function (review) {
+		var regex = new RegExp(/^(?=.*[A-Z0-9])/i)
+		if (regex.test(review._id)) {
+   			Reviews.update(review._id, {$set: { visible: 1} })
+   			return 1
+   		} else {
+   			return 0
+   		}
+ 	}, 
+ 	//remove the review with this id. Check to make sure the id is a real id
+ 	removeReview: function(review) {
+ 		var regex = new RegExp(/^(?=.*[A-Z0-9])/i)
+		if (regex.test(review._id)) {
+	   		Reviews.remove({ _id: review._id})
+	   		return 1
+	   	} else {
+	   		return 0
+	   	}
+	}
+});
 
 // This code only runs on the server
 if (Meteor.isServer) {
