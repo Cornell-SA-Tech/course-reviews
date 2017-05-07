@@ -4,6 +4,7 @@ import { Classes } from '../../api/classes.js';
 import { Reviews } from '../../api/classes.js';
 import gauges from 'angularjs-gauge';
 import template from './classes.html';
+import uiRouter from 'angular-ui-router'
  
 class ClassCtrl {
   constructor($scope) {
@@ -129,9 +130,18 @@ class ClassCtrl {
 }
  
 export default angular.module('classes', [
-  angularMeteor
+  angularMeteor,
+  uiRouter
 ])
   .component('classes', {
     templateUrl: 'imports/components/classes/classes.html',
     controller: ['$scope', ClassCtrl]
-  });
+  })
+  .config(config);
+
+  function config($locationProvider, $urlRouterProvider){
+    'ngInject';
+
+    $locationProvider.html5Mode(true);
+    $urlRouterProvider.otherwise('/classes');
+  }

@@ -4,6 +4,7 @@ import gauges from 'angularjs-gauge';
 import template from './updates.html';
 import { Classes } from '../../api/classes.js';
 import { Reviews } from '../../api/classes.js';
+import uiRouter from 'angular-ui-router';
 
 class UpdatesCtrl {
   constructor($scope) {
@@ -30,9 +31,19 @@ class UpdatesCtrl {
  
 export default angular.module('update', [
   angularMeteor, 
-  'angularjs-gauge'
+  'angularjs-gauge',
+  uiRouter
 ])
   .component('update', {
     templateUrl: 'imports/components/updates/updates.html',
     controller: ['$scope', UpdatesCtrl]
-  });
+  })
+  .config(config);
+
+  function config($stateProvider){
+    'ngInject';
+    $stateProvider.state('update', {
+      url: '/update',
+      template: '<update></update>'
+    })
+  }
