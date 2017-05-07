@@ -7,7 +7,7 @@
   "dependencies": {
     "angular": "^1.6.4",
     "angular-meteor": "^1.3.12",
-    "angular-ui-router": "^1.0.0",
+    "@uirouter/angularjs": "^1.0.0-rc.1",
     "angularjs-gauge": "^1.3.0",
     "babel-runtime": "^6.23.0",
     "meteor-node-stubs": "^0.2.6"
