@@ -8,3 +8,4 @@ angular.module('classList', [
   classes.name,
   updates.name
 ]);
+
