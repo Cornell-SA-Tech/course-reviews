@@ -41,7 +41,6 @@ class ClassCtrl {
       //callback function, should only run once the reveiws collection updates, BUT ISNT 
       //seems to be combining the previously clicked class's reviews into the collection
       onReady: function() {
-        console.log("class is: ", this.selectedClass);
         if (this.isClassSelected == true) { //will later need to check that the side window is open
           //create initial variables
           var countGrade = 0;
@@ -59,10 +58,8 @@ class ClassCtrl {
             },
             {limit: 700}
           )
-          console.log(allReviews.fetch()); 
-          console.log("len is " + allReviews.fetch().length)
+          
           if (allReviews.fetch().length != 0) {
-            console.log("exist")
             allReviews.forEach(function(review) {
               count++;
               countGrade = countGrade + Number(review["grade"]);
@@ -74,13 +71,13 @@ class ClassCtrl {
             this.diff = (countDiff/count).toFixed(1);
             this.grade = gradeTranslation[Math.floor(countGrade/count) - 1];
           } else {
-            console.log("first else");
+            console.log("first else")
             this.qual = 0;
             this.diff = 0;
             this.grade = "-";
           }
         } else {
-          console.log("second else");
+          console.log("Second else")
             this.qual = 0;
             this.diff = 0;
             this.grade = "-";
@@ -99,8 +96,6 @@ class ClassCtrl {
   }
   // Insert a new review to the collection. 
   addReview(review, classId) {
-    console.log(review)
-    console.log(classId)
     if (review.text != null && review.diff != null && review.quality != null && review.medGrade != null && classId != undefined && classId != null) {
       //call insert function defined on the server to change the database for more security. Make it a varible to run syncronously
       var justAVarToMakeThisSync = Meteor.call('insert', review, classId)
