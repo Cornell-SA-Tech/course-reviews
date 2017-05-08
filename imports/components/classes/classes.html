@@ -48,7 +48,7 @@
 			</header>
 			<div>
 				<ul>
-				    <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true" ng-repeat="class in $ctrl.classes">
+				    <li ng-style="{color:param1}" ng-mouseenter="param1='#4990E2'" ng-mouseleave="param1='black'" ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true;" ng-repeat="class in $ctrl.classes">
 				    	{{class.classSub | uppercase}} {{class.classNum}}: {{class.classTitle}}
 				    </li>
 				</ul>
@@ -66,15 +66,15 @@
 								    	<section>
 								        	<div class="row">
 								        		<div class="col-sm-4">
-											    	<ng-gauge id="gauge1" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" used="$ctrl.qual" total="5" label="Overall Quality" append="/5">
+											    	<ng-gauge id="gauge1" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" used="$ctrl.qual" total="5" foreground-color="rgba(248, 204, 48, 100)" label="Overall Quality" append="/5">
 											    	</ng-gauge> 
 								        		</div>
 								        		<div class="col-sm-4">
-									        		<ng-gauge id="gauge2" type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" used="$ctrl.qual" total=5 label="Level of Difficulty" append="/5">
+									        		<ng-gauge id="gauge2" type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" used="$ctrl.qual" total=5 foreground-color="rgba(230, 69, 88, 100)" label="Level of Difficulty" append="/5">
 												    </ng-gauge> 
 								        		</div>
 								        		<div class="col-sm-4">
-								        			<ng-gauge id="gauge3" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" used="$ctrl.qual" label="Median Grade">
+								        			<ng-gauge id="gauge3" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" label="Median Grade">
 								    				</ng-gauge> 
 					        					</div>
 					        				</div> 
