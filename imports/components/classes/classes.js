@@ -52,7 +52,12 @@ class ClassCtrl {
           var gradeTranslation = ["C-", "C", "C+", "B-", "B", "B-", "A-", "A", "A+"];
 
           //get all current reviews, which will now have only this class's reviews because of the subscribe.
-          var allReviews = Reviews.find({});
+          var allReviews = Reviews.find({
+              class : (this.getReactively('selectedClass'))._id,
+              visible : 1
+            },
+            {limit: 700}
+          )
           console.log(allReviews.fetch()); 
           console.log("len is " + allReviews.fetch().length)
           if (allReviews.fetch().length != 0) {
