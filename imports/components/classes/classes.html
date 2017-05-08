@@ -66,15 +66,15 @@
 								    	<section>
 								        	<div class="row">
 								        		<div class="col-sm-4">
-											    	<ng-gauge id="gauge1" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" label="Overall Quality" append="/5">
+											    	<ng-gauge id="gauge1" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" used="$ctrl.qual" total="5" label="Overall Quality" append="/5">
 											    	</ng-gauge> 
 								        		</div>
 								        		<div class="col-sm-4">
-									        		<ng-gauge id="gauge2" type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" label="Level of Difficulty" append="/5">
+									        		<ng-gauge id="gauge2" type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" used="$ctrl.qual" total=5 label="Level of Difficulty" append="/5">
 												    </ng-gauge> 
 								        		</div>
 								        		<div class="col-sm-4">
-								        			<ng-gauge id="gauge3" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" label="Median Grade">
+								        			<ng-gauge id="gauge3" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" used="$ctrl.qual" label="Median Grade">
 								    				</ng-gauge> 
 					        					</div>
 					        				</div> 
@@ -179,7 +179,7 @@
 				</div>
 			</div>
 			<section>
-				<legend class="subheader">Past Reviews:</legend>
+				<legend class="subheader" style="margin-left: 30px">Past Reviews</legend>
 			    <div class = "panel panel-default">
 			    	<div>
 						<ul>
