@@ -1,4 +1,11 @@
 /* CSS declarations go here */
+
+
+/*@font-face {
+    font-family: "Helvetica Neue";
+    src: url(https://github.com/jackhumbert/kle-image-creator/blob/master/fonts/HelveticaNeue-Medium.ttf) format("truetype");
+}
+*/
 body {
     font-family: sans-serif;
  
@@ -14,15 +21,17 @@ body {
     font-size: 14px;
 }
 .navbar{
-    background-color: #3399ff;
+    background-color: #4990E2;
     margin-bottom: 0px;
 }
 
 a.navbar-brand {
-    font-size: 36px;
+    font-size: 1.3em /*36px*/;
     font-family: 'Helvetica Neue';
     font-weight: medium;
+    padding-left:30px;
 }
+
 
 #searchbar {
     width: 100% !important;
