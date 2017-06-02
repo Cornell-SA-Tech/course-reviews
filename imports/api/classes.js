@@ -42,9 +42,7 @@ Meteor.methods({
 	insert: function(review, classId) {
 		if (review.text != null && review.diff != null && review.quality != null && review.medGrade != null && classId != undefined && classId != null) {
 			var regex = new RegExp(/^(?=.*[A-Z0-9])[\w:;.,!()"'\/$ ]+$/i)
-			console.log(regex.test(review.text))
 			if (regex.test(review.text)) {
-				console.log("passed")
 			  	Reviews.insert({
 				    text: review.text,
 				    difficulty: review.diff,
@@ -111,9 +109,8 @@ if (Meteor.isServer) {
     //code that runs whenever needed
     //publish visible classes based on search query
     Meteor.publish('classes', function validClasses(searchString) {
-	  	console.log(searchString);
 	  	if (searchString != undefined && searchString != "") {
-	  		console.log("query");
+	  		console.log("query entered");
 	  		return Classes.find({'$or' : [ 
 			  { 'classSub':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }},
 			  { 'classNum':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' } },
@@ -124,7 +121,6 @@ if (Meteor.isServer) {
 			{limit: 700});
 	  	}
 	  	else {
-	  		console.log("none");
 	  		return Classes.find({},
 	  		{limit: 700}); 
 	  	}
@@ -132,27 +128,20 @@ if (Meteor.isServer) {
 
     //publish visible reviews based on selected course 
 	Meteor.publish('reviews', function validReviews(courseId, visiblity) {
-	  	console.log(courseId);
-	  	console.log(visiblity);
 	  	var ret = null
 	  	//show valid reviews for this course
 	  	if (courseId != undefined && courseId != "" && visiblity == 1) {
-	  		console.log("checked reviews for a class");
 	  		ret =  Reviews.find({class : courseId, visible : 1}, {limit: 700});
 	  	} else if (courseId != undefined && courseId != "" && visiblity == 0) { //invalidated reviews for a class
-	  		console.log("unchecked reviews for a class");
 	  		ret =  Reviews.find({class : courseId, visible : 0},  
 			{limit: 700});
 	  	} else if (visiblity == 0) { //all invalidated reviews
-	  		console.log("all unchecked reviews");
 	  		ret =  Reviews.find({visible : 0}, {limit: 700});
 	  	} else { //no reviews 
-	  		console.log("no reviews");
 	  		//will always be empty because visible is 0 or 1. allows meteor to still send the ready 
 	  		//flag when a new publication is sent
 	  		ret = Reviews.find({visible : 10}); 
 	  	}
-	  	//console.log(ret.fetch())
 	  	return ret
   	});
 

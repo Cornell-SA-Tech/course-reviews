@@ -28,16 +28,23 @@
 
 		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		    <div class="nav navbar-nav navbar col-sm-5 col-md-5" style="margin-top: 10px; margin-bottom: 10px;">
-		        <form class="navbar-form" role="search">
+		        <div class="navbar-form" role="search">
 			        <div class="input-group" id="searchbar">
-			            <input ng-model="$ctrl.query" ng-change="$ctrl.selectedClass = {}; $ctrl.isClassSelected = false" type="text" class="form-control" placeholder="Search for classes (e.g. CS 2110, Intro to Creative Writing)" style="height: 34px; margin-bottom: 0px;top: auto;bottom: 3px;">
+			            <input ng-model="$ctrl.query" ng-change="$ctrl.selectedClass = {}; $ctrl.isClassSelected = false" type="text" class="form-control dropdown" placeholder="Search for classes (e.g. CS 2110, Intro to Creative Writing)" style="height: 34px; margin-bottom: 0px;top: auto;bottom: 3px;">
 			            <div class="input-group-btn">
 			                <button class="btn btn-default" type="submit" style="bottom:3px"><i class="glyphicon glyphicon-search"></i></button>
 			            </div>
+						<!--search results, populated by the given query. Hide if the query is empty or no results were found.-->
+					    <ul class="dropdown-menu" style="display: inline" ng-hide="$ctrl.query.length == 0">
+					        <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true" ng-repeat="class in $ctrl.classes">
+						    	{{class.classSub | uppercase}} {{class.classNum}}: {{class.classTitle}}
+						    </li>
+						    <li ng-show="$ctrl.query.length > 0 && $ctrl.classes.length == 0" class="text-muted">No Matching Courses Found</li>
+					    </ul>
 			        </div>
-		        </form>
+		        </div>
 		    </div>
-		    </div>
+		  </div>
 		</nav>
 	</div>
 	<div class="row">
@@ -46,13 +53,13 @@
 				<h1 class="subheader">Popular Classes</h1>
 				<!-- <div>Selected Class: {{$ctrl.selectedClass }}</div> -->
 			</header>
-			<div>
+			<!-- <div>
 				<ul>
 				    <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true" ng-repeat="class in $ctrl.classes">
 				    	{{class.classSub | uppercase}} {{class.classNum}}: {{class.classTitle}}
 				    </li>
 				</ul>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-md-6 panel-container fix-contain">
 			<div class = "panel panel-default no-background no-border">
