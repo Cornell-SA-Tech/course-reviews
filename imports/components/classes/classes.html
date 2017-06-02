@@ -55,7 +55,7 @@
 			</header>
 			<!-- <div>
 				<ul>
-				    <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true" ng-repeat="class in $ctrl.classes">
+				    <li ng-style="{color:param1, cursor:'pointer'}" ng-mouseenter="param1='#4990E2'" ng-mouseleave="param1='black'" ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true;" ng-repeat="class in $ctrl.classes">
 				    	{{class.classSub | uppercase}} {{class.classNum}}: {{class.classTitle}}
 				    </li>
 				</ul>
@@ -66,18 +66,18 @@
 				<div class = "panel-body" style="padding-left: 30px;padding-right: 30px; padding-top: 25px;">
 				    <section>
 				    	<div class = "form-group"> 
-				    		<h1 class="subheader" style="margin-bottom: 30px;">Student Ratings</h1>
+				    		<h1 class="subheader" style="margin-bottom: 30px;">Class Data</h1>
 			    			<div>
 								<div class = "panel panel-default">
 								    <div class = "panel-body">
 								    	<section>
 								        	<div class="row">
 								        		<div class="col-sm-4">
-											    	<ng-gauge id="gauge1" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" label="Overall Quality" append="/5">
+											    	<ng-gauge id="gauge1" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" used="$ctrl.qual" total="5" foreground-color="rgba(248, 204, 48, 100)" label="Overall Quality" append="/5">
 											    	</ng-gauge> 
 								        		</div>
 								        		<div class="col-sm-4">
-									        		<ng-gauge id="gauge2" type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" label="Level of Difficulty" append="/5">
+									        		<ng-gauge id="gauge2" type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" used="$ctrl.qual" total=5 foreground-color="rgba(230, 69, 88, 100)" label="Level of Difficulty" append="/5">
 												    </ng-gauge> 
 								        		</div>
 								        		<div class="col-sm-4">
@@ -186,30 +186,41 @@
 				</div>
 			</div>
 			<section>
-				<legend class="subheader">Past Reviews:</legend>
+				<legend class="subheader" style="margin-left: 30px">Past Reviews</legend>
 			    <div class = "panel panel-default">
 			    	<div>
 						<ul>
-							<li ng-click="" ng-repeat="review in $ctrl.reviews">
+							<li ng-click="" style="padding-left: 30px; padding-right:30px; background-color:#F3F3F3" ng-repeat="review in $ctrl.reviews">
 								<!--repeat this code for as many reviews as present-->
 								<div class = "panel panel-default">
-									<div class= "panel-heading" id = "past">Name?</div>
+									<!-- <div class= "panel-heading" id = "past">Name?</div> -->
 									<div class = "panel-body">
 									    <div class = "row">
 									    	<div class = "col-sm-2">
 									      		<div class = "panel panel-default">
 									     			<div class = "panel-body">{{review.quality}}</div>
 									      		</div>
+									      	</div>
+									      	<div class = "col-sm-2">
+									      		<p style="opacity:0.5">Overall Quality</p>
+									      	</div>
+									    	<div class = "col-sm-2">
 									      		<div class = "panel panel-default">
 									      			<div class = "panel-body">{{review.difficulty}}</div>
 									      		</div>
 									    	</div>
-									    	<div class = "col-sm-2">
+									      	<div class = "col-sm-2">
+									      		<p style="opacity:0.5">Difficulty</p>
+									      	</div>
+									    </div>
+										<!--<div class = "col-sm-2">
 									      		<div class = "panel-body"> Overall Quality</div>
 									      	    <div class = "panel-body"> Level of difficulty</div>
-									    	</div>
+									    	</div> -->
+									    <div class="row" style="margin-right: 10px">
 									   		<div class = "review-text">{{review.text}}</div>
-									    </div>
+									   	</div>
+									    
 									</div>
 								</div>
 							</li>
