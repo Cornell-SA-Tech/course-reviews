@@ -10,7 +10,7 @@ class ClassCtrl {
   constructor($scope) {
     $scope.viewModel(this);
 
-    //hold currently clicked class for the data on the side view 
+    //check if a class was selected in the search
     this.selectedClass = {};
     this.isClassSelected = false;
 
@@ -23,35 +23,34 @@ class ClassCtrl {
       atten: null
     }
 
-    //holds search query
+    //hold search query
     this.query = "";
 
     this.isHome = true;
 
-    //gauge options https://ashish-chopra.github.io/angular-gauge/
+    //variables to hold gauge options. Gauge taken from https://ashish-chopra.github.io/angular-gauge/
     this.qual = 0;
     this.diff =0;
     this.grade = "-";
 
-    //when the query variable changes, update the list of classes returned by the database
+    //when the query variable changes, update the published classes returned by the database
     this.subscribe('classes', () => [this.getReactively('query')]);
 
-    //when a new class is selected, update the reviews that are returned by the database and update the gauges
+    //when a new class is selected, update the published reviews returned by the database. Also update the gauges
     this.subscribe('reviews', () => [(this.getReactively('selectedClass'))._id, 1], {
-      //callback function, should only run once the reveiws collection updates, BUT ISNT 
-      //seems to be combining the previously clicked class's reviews into the collection
+      //runs once the published collection has been updated
       onReady: function() {
-        if (this.isClassSelected == true) { //will later need to check that the side window is open
+        if (this.isClassSelected == true) { //will later need to check that the side window is open too
           //create initial variables
           var countGrade = 0;
           var countDiff = 0;
           var countQual = 0;
           var count = 0;
 
-          //table to translate grades from numerical value
+          //array to translate grades from numerical value
           var gradeTranslation = ["C-", "C", "C+", "B-", "B", "B-", "A-", "A", "A+"];
 
-          //get all current reviews, which will now have only this class's reviews because of the subscribe.
+          //get all current reviews, which will now have only this class's reviews because of the updated publishing
           var allReviews = Reviews.find({
               class : (this.getReactively('selectedClass'))._id,
               visible : 1
@@ -59,6 +58,7 @@ class ClassCtrl {
             {limit: 700}
           )
           
+          //gather data on the reviews
           if (allReviews.fetch().length != 0) {
             allReviews.forEach(function(review) {
               count++;
@@ -67,6 +67,9 @@ class ClassCtrl {
               countQual = countQual + review["quality"];
             });
 
+            console.log("calculated qual is", (countQual/count).toFixed(1));
+            console.log("calculated diff is ", (countDiff/count).toFixed(1));
+            //update the gauge variable values 
             this.qual = (countQual/count).toFixed(1);
             this.diff = (countDiff/count).toFixed(1);
             this.grade = gradeTranslation[Math.floor(countGrade/count) - 1];
@@ -97,7 +100,7 @@ class ClassCtrl {
   // Insert a new review to the collection. 
   addReview(review, classId) {
     if (review.text != null && review.diff != null && review.quality != null && review.medGrade != null && classId != undefined && classId != null) {
-      //call insert function defined on the server to change the database for more security. Make it a varible to run syncronously
+      //call insert function defined on the server to change the database for more security. Make it a varible to run syncronously.
       var justAVarToMakeThisSync = Meteor.call('insert', review, classId)
 
       //clear the review 
@@ -114,17 +117,38 @@ class ClassCtrl {
     }
   }
 
-  //return an object with CSS stlying for the background of the difficulty slider value
+  /*Return values of the following color functions are given to 
+  foreground-color attributes of the gauges (surrounded by {{}} to conver to a string) 
+  or as a CSS object to sliders using the sliderStyler helper function. */
+
+  //get color of the difficulty slider or gauge. 
   diffColor(value) {
-    var col = ["#53B227","#53B227", "#A0D53F", "#FF9E00", "#E64458"]
-    return {'background-color': col[value -1 ]};
+    if (value <= 2) return '#53B227'
+    else if (value >= 3.5) return '#E64458'
+    else return '#F9CC30'
   }
 
-  //return an object with CSS stlying for the background o slider value
+  //get color of the qual slider or gauge 
   qualColor(value) {
-    var col = ["#E64458", "#E64458", "#FF9E00", "#A0D53F", "#53B227"]
-    return {'background-color': col[value -1 ]};
+    if (value <= 2) return '#E64458'
+    else if (value >= 3.5) return '#53B227'
+    else return '#F9CC30'
   }
+
+  //color gauge conversion
+  gradeColor(value) {
+    var gradeTranslation = ["-", "C-", "C", "C+", "B-", "B", "B-", "A-", "A", "A+"]
+    var colIndex = gradeTranslation.indexOf(value)
+    if (colIndex <= 3) return '#E64458'
+    else if (colIndex >= 7) return '#53B227'
+    else return '#F9CC30'
+  }
+
+  //take color and return as a CSS styling object to pass to the slider 
+  sliderStyle(color) {
+    return {'background-color': color}
+  }
+
 }
  
 export default angular.module('classes', [

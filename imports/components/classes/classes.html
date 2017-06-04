@@ -36,7 +36,7 @@
 			            </div>
 						<!--search results, populated by the given query. Hide if the query is empty or no results were found.-->
 					    <ul class="dropdown-menu" style="display: inline" ng-hide="$ctrl.query.length == 0">
-					        <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true" ng-repeat="class in $ctrl.classes">
+					        <li ng-click="$ctrl.selectedClass = class; $ctrl.isClassSelected = true; $ctrl.query = ''" ng-repeat="class in $ctrl.classes">
 						    	{{class.classSub | uppercase}} {{class.classNum}}: {{class.classTitle}}
 						    </li>
 						    <li ng-show="$ctrl.query.length > 0 && $ctrl.classes.length == 0" class="text-muted">No Matching Courses Found</li>
@@ -73,15 +73,15 @@
 								    	<section>
 								        	<div class="row">
 								        		<div class="col-sm-4">
-											    	<ng-gauge id="gauge1" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" used="$ctrl.qual" total="5" foreground-color="rgba(248, 204, 48, 100)" label="Overall Quality" append="/5">
+											    	<ng-gauge id="gauge1" foreground-color="{{$ctrl.qualColor($ctrl.qual)}}" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" label="Overall Quality" append="/5">
 											    	</ng-gauge> 
 								        		</div>
 								        		<div class="col-sm-4">
-									        		<ng-gauge id="gauge2" type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" used="$ctrl.qual" total=5 foreground-color="rgba(230, 69, 88, 100)" label="Level of Difficulty" append="/5">
+									        		<ng-gauge id="gauge2" foreground-color="{{$ctrl.diffColor($ctrl.diff)}}"  type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" label="Level of Difficulty" append="/5">
 												    </ng-gauge> 
 								        		</div>
 								        		<div class="col-sm-4">
-								        			<ng-gauge id="gauge3" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" label="Median Grade">
+								        			<ng-gauge id="gauge3" foreground-color="{{$ctrl.gradeColor($ctrl.grade)}}" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" label="Median Grade">
 								    				</ng-gauge> 
 					        					</div>
 					        				</div> 
@@ -110,7 +110,7 @@
 									  			</div>
 								  			</div>
 									  		<div class="col-md-8">
-									  			<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="1" max="5" step="1" ng-change="qColor = $ctrl.qualColor($ctrl.newReview.quality)">
+									  			<input ng-model="$ctrl.newReview.quality" type="range" id="a2" name="qual" min="0" max="5" step="1" ng-change="qColor = $ctrl.sliderStyle($ctrl.qualColor($ctrl.newReview.quality))">
 									  		</div>
 							  			</div>
 
@@ -126,7 +126,7 @@
 										  		</div>
 							  				</div>
 							  				<div class="col-md-8">
-							  					<input ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="1" max="5" step="1" ng-change="dColor = $ctrl.diffColor($ctrl.newReview.diff)">
+							  					<input ng-model="$ctrl.newReview.diff" type="range" id="a1" name="diff" min="0" max="5" step="1" ng-change="dColor = $ctrl.sliderStyle($ctrl.diffColor($ctrl.newReview.diff))">
 							  				</div>
 							  			</div>
 
@@ -190,7 +190,7 @@
 			    <div class = "panel panel-default">
 			    	<div>
 						<ul>
-							<li ng-click="" style="padding-left: 30px; padding-right:30px; background-color:#F3F3F3" ng-repeat="review in $ctrl.reviews">
+							<li style="padding-left: 30px; padding-right:30px; background-color:#F3F3F3" ng-repeat="review in $ctrl.reviews">
 								<!--repeat this code for as many reviews as present-->
 								<div class = "panel panel-default">
 									<!-- <div class= "panel-heading" id = "past">Name?</div> -->

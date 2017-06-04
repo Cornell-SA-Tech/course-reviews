@@ -3,7 +3,7 @@ import { HTTP } from 'meteor/http';
 import { check } from 'meteor/check';
 //import { SimpleSchema } from 'meteor/simpleschema';
 
-//define database objects
+//define database objects. Allows the minimongo collection created on the client side to understand collection structure
 export const Classes = new Mongo.Collection('classes');
 Classes.schema = new SimpleSchema({
   _id: {type: String},
@@ -13,7 +13,6 @@ Classes.schema = new SimpleSchema({
   classAtten: {type: Number},
   classPrereq : { type: [String] ,optional: true},
   classFull: {type: String} 
-  //classreviews : {type: [String] ,optional: true} // maybe [Object?]
 });
 
 export const Subjects = new Mongo.Collection('subjects');
@@ -40,7 +39,9 @@ Reviews.schema = new SimpleSchema({
 Meteor.methods({
 	//insert a new review into the reviews database
 	insert: function(review, classId) {
+		//only insert if all necessary feilds are filled in 
 		if (review.text != null && review.diff != null && review.quality != null && review.medGrade != null && classId != undefined && classId != null) {
+			//ensure there are no illegal characters
 			var regex = new RegExp(/^(?=.*[A-Z0-9])[\w:;.,!()"'\/$ ]+$/i)
 			if (regex.test(review.text)) {
 			  	Reviews.insert({
@@ -52,15 +53,15 @@ Meteor.methods({
 				    date: new Date(),
 				    visible: 0
 				})
-				return 1
+				return 1 //success
 			} else {
-				return 0
+				return 0 //fail
 			}
 		} else {
-			return 0
+			return 0 //fail
 		}
 	},
-	//make the reveiw with this id visible. check to make sure the id is a real id
+	//make the reveiw with this id visible, checking to make sure it has a real id
 	makeVisible: function (review) {
 		var regex = new RegExp(/^(?=.*[A-Z0-9])/i)
 		if (regex.test(review._id)) {
@@ -70,7 +71,7 @@ Meteor.methods({
    			return 0
    		}
  	}, 
- 	//remove the review with this id. Check to make sure the id is a real id
+ 	//remove the review with this id, checking to make sure the id is a real id
  	removeReview: function(review) {
  		var regex = new RegExp(/^(?=.*[A-Z0-9])/i)
 		if (regex.test(review._id)) {
@@ -82,11 +83,10 @@ Meteor.methods({
 	}
 });
 
-// This code only runs on the server
+//Code that runs only on the server
 if (Meteor.isServer) {
-    Meteor.startup(() => {
-	  // code to run on server at startup
-	  //add indexes
+    Meteor.startup(() => { // code to run on server at startup
+	  //add indexes to collections for faster search
 	  Classes._ensureIndex(
 	        { 'classSub' : 1 },
 	        { 'classNum' : 1 },
@@ -107,7 +107,7 @@ if (Meteor.isServer) {
 	});
 
     //code that runs whenever needed
-    //publish visible classes based on search query
+    //"publish" classes based on search query. Only published classes are visible to the client
     Meteor.publish('classes', function validClasses(searchString) {
 	  	if (searchString != undefined && searchString != "") {
 	  		console.log("query entered");
@@ -126,7 +126,7 @@ if (Meteor.isServer) {
 	  	}
   	});
 
-    //publish visible reviews based on selected course 
+    //"publish" reviews based on selected course and visibility requirements. Only published reviews are visible to the client
 	Meteor.publish('reviews', function validReviews(courseId, visiblity) {
 	  	var ret = null
 	  	//show valid reviews for this course
@@ -138,17 +138,14 @@ if (Meteor.isServer) {
 	  	} else if (visiblity == 0) { //all invalidated reviews
 	  		ret =  Reviews.find({visible : 0}, {limit: 700});
 	  	} else { //no reviews 
-	  		//will always be empty because visible is 0 or 1. allows meteor to still send the ready 
-	  		//flag when a new publication is sent
+	  		//will always be empty because visible is 0 or 1. allows meteor to still send the ready flag when a new publication is sent
 	  		ret = Reviews.find({visible : 10}); 
 	  	}
 	  	return ret
   	});
 
-    //adds all classes and subjects to the db
+    //initializes the database. Adds all classes and subjects from Cornell's API between the semesters indicated below.
     function initDB(bool) {
-  		//clear the existing db
-	    //get classes in each of the following semesters
 	    var semesters = ["SP17", "SP16", "SP15","FA17", "FA16", "FA15"];
 		for (semester in semesters) {
 			//get all classes in this semester
@@ -161,7 +158,7 @@ if (Meteor.isServer) {
 				var sub = response.data.subjects;
 				for (course in sub) {
 				    parent = sub[course];
-				    //if subject doesn't exist add to Subjects
+				    //if subject doesn't exist add to Subjects collection
 				    checkSub = Subjects.find({'subShort' : (parent.value).toLowerCase()}).fetch(); 
 				    console.log(checkSub);
 				    if (checkSub.length == 0) {
@@ -180,7 +177,7 @@ if (Meteor.isServer) {
 				    	response2 = JSON.parse(result2.content);
 					    courses = response2.data.classes;
 
-					    //add each class if it doesnt exist already
+					    //add each class to the Classes collection if it doesnt exist already
 					    for (course in courses) {
 					        var check = Classes.find({'classSub' : (courses[course].subject).toLowerCase(), 'classNum' : courses[course].catalogNbr}).fetch();
 					        if (check.length == 0) {
@@ -205,7 +202,7 @@ if (Meteor.isServer) {
 
     //similar to above, but for a new semester. Run once the new semester data has been released.
     function addNewSemester() {
-
+    
     }
 
   //COMMENT THESE OUT AFTER THE FIRST METEOR BUILD!!
