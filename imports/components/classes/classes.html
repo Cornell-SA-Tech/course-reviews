@@ -48,10 +48,32 @@
 		</nav>
 	</div>
 	<div class="row">
-		<div class="col-md-6">
-			<header>
-				<h1 class="subheader">Popular Classes</h1>
-				<!-- <div>Selected Class: {{$ctrl.selectedClass }}</div> -->
+		<div class="col-md-6" >
+			<header ng-show="$ctrl.isClassSelected">
+				<h1 class="subheader" style="margin-bottom: 30px; margin-top: 50px;">{{$ctrl.selectedClass.classSub | uppercase}} {{$ctrl.selectedClass.classNum}}: {{$ctrl.selectedClass.classTitle}}</h1>
+				<h2 style="margin-bottom: 30px;">Class Data</h2>
+    			<div>
+					<div class = "panel panel-default">
+					    <div class = "panel-body">
+					    	<section>
+					        	<div class="row">
+					        		<div class="col-sm-4">
+								    	<ng-gauge id="gauge1" foreground-color="{{$ctrl.qualColor($ctrl.qual)}}" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" label="Overall Quality" append="/5">
+								    	</ng-gauge> 
+					        		</div>
+					        		<div class="col-sm-4">
+						        		<ng-gauge id="gauge2" foreground-color="{{$ctrl.diffColor($ctrl.diff)}}"  type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" label="Level of Difficulty" append="/5">
+									    </ng-gauge> 
+					        		</div>
+					        		<div class="col-sm-4">
+					        			<ng-gauge id="gauge3" foreground-color="{{$ctrl.gradeColor($ctrl.grade)}}" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" label="Median Grade">
+					    				</ng-gauge> 
+		        					</div>
+		        				</div> 
+		   					</section>
+		  				</div>
+					</div>
+				</div>
 			</header>
 			<!-- <div>
 				<ul>
@@ -66,33 +88,7 @@
 				<div class = "panel-body" style="padding-left: 30px;padding-right: 30px; padding-top: 25px;">
 				    <section>
 				    	<div class = "form-group"> 
-				    		<h1 class="subheader" style="margin-bottom: 30px;">Class Data</h1>
-			    			<div>
-								<div class = "panel panel-default">
-								    <div class = "panel-body">
-								    	<section>
-								        	<div class="row">
-								        		<div class="col-sm-4">
-											    	<ng-gauge id="gauge1" foreground-color="{{$ctrl.qualColor($ctrl.qual)}}" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" label="Overall Quality" append="/5">
-											    	</ng-gauge> 
-								        		</div>
-								        		<div class="col-sm-4">
-									        		<ng-gauge id="gauge2" foreground-color="{{$ctrl.diffColor($ctrl.diff)}}"  type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" label="Level of Difficulty" append="/5">
-												    </ng-gauge> 
-								        		</div>
-								        		<div class="col-sm-4">
-								        			<ng-gauge id="gauge3" foreground-color="{{$ctrl.gradeColor($ctrl.grade)}}" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" label="Median Grade">
-								    				</ng-gauge> 
-					        					</div>
-					        				</div> 
-					   					</section>
-					  				</div>
-								</div>
-							</div>
-
-
 				    		<form ng-submit="message = $ctrl.addReview($ctrl.newReview, $ctrl.selectedClass._id)">
-						        <legend class="subheader">Your Review</legend>
 						        <div class = "panel panel-default">
 						        	<div class="panel-body">
 						      			<textarea class = "text" ng-model="$ctrl.newReview.text" name="feedback" placeholder="Does your professor tell funny jokes? Leave your feedback here!" style="border: none; width: 100%; height: 100px"></textarea>

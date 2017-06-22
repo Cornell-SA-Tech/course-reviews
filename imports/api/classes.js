@@ -110,7 +110,7 @@ if (Meteor.isServer) {
     //"publish" classes based on search query. Only published classes are visible to the client
     Meteor.publish('classes', function validClasses(searchString) {
 	  	if (searchString != undefined && searchString != "") {
-	  		console.log("query entered");
+	  		//console.log("query entered");
 	  		return Classes.find({'$or' : [ 
 			  { 'classSub':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' }},
 			  { 'classNum':{ '$regex' : `.*${searchString}.*`, '$options' : '-i' } },
