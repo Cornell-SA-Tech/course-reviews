@@ -56,17 +56,17 @@
 					<div class = "panel panel-default">
 					    <div class = "panel-body">
 					    	<section>
-					        	<div class="row">
-					        		<div class="col-sm-4">
-								    	<ng-gauge id="gauge1" foreground-color="{{$ctrl.qualColor($ctrl.qual)}}" type="arch" thick="14" size="160" cap="butt" value="$ctrl.qual" label="Overall Quality" append="/5">
+					        	<div class="row" id="gaugeHolder">
+					        		<div class="col-sm-4" style="text-align: center;">
+								    	<ng-gauge id="gauge1" foreground-color="{{$ctrl.qualColor($ctrl.qual)}}" type="arch" thick="{{$ctrl.gaugeThick}}" size="{{$ctrl.gaugeWidth}}" cap="butt" value="$ctrl.qual" label="Overall Quality" append="/5">
 								    	</ng-gauge> 
 					        		</div>
-					        		<div class="col-sm-4">
-						        		<ng-gauge id="gauge2" foreground-color="{{$ctrl.diffColor($ctrl.diff)}}"  type="arch" thick="14" size="160" cap="butt" value="$ctrl.diff" label="Level of Difficulty" append="/5">
+					        		<div class="col-sm-4" style="text-align: center;">
+						        		<ng-gauge id="gauge2" foreground-color="{{$ctrl.diffColor($ctrl.diff)}}"  type="arch" thick="{{$ctrl.gaugeThick}}" size="{{$ctrl.gaugeWidth}}" cap="butt" value="$ctrl.diff" label="Level of Difficulty" append="/5">
 									    </ng-gauge> 
 					        		</div>
-					        		<div class="col-sm-4">
-					        			<ng-gauge id="gauge3" foreground-color="{{$ctrl.gradeColor($ctrl.grade)}}" type="arch" thick="14" size="160" cap="butt" value="$ctrl.grade" label="Median Grade">
+					        		<div class="col-sm-4" style="text-align: center;">
+					        			<ng-gauge id="gauge3" foreground-color="{{$ctrl.gradeColor($ctrl.grade)}}" type="arch" thick="{{$ctrl.gaugeThick}}" size="{{$ctrl.gaugeWidth}}" cap="butt" value="$ctrl.grade" label="Median Grade">
 					    				</ng-gauge> 
 		        					</div>
 		        				</div> 

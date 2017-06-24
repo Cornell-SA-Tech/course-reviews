@@ -7,12 +7,16 @@ import template from './classes.html';
 import uiRouter from 'angular-ui-router'
  
 class ClassCtrl {
-  constructor($scope) {
+  constructor($scope, $element) {
     $scope.viewModel(this);
 
     //check if a class was selected in the search
     this.selectedClass = {};
     this.isClassSelected = false;
+
+    //just for testing 
+    // this.selectedClass = {"classSub":"cs","classNum":"2110","classTitle":"Object-Oriented Programming and Data Structures","classPrereq":{},"classFull":"cs 2110 object-oriented programming and data structures","_id":"etEhj4w6HzXsuJPmy"} 
+    // this.isClassSelected = true;
 
     //hold data inputed by user in the add review form
     this.newReview = {
@@ -32,6 +36,32 @@ class ClassCtrl {
     this.qual = 0;
     this.diff =0;
     this.grade = "-";
+
+    // define the width and thickeness of the the gauges using javascript to grab the width of the bootstrap col elements holding each gauge
+    // Need to make this run automatically when the window resizes 
+    w = $("#gaugeHolder").width();
+    console.log(w)
+
+    if (w > 700) {
+      this.gaugeWidth = w/3 - .08*w;
+      this.gaugeThick = 14
+      console.log("1")
+    }
+    else if (w > 400) {
+      this.gaugeWidth = w - .70*w;
+      this.gaugeThick = 12; 
+      console.log("2")
+    }
+    else {
+      this.gaugeWidth = w - .5*w;
+      this.gaugeThick = 10; 
+      console.log("3")
+    }
+
+    //attempt to make gauges auto resize - doens't work 
+    // $(window).resize(function() {
+    //   console.log(this.gaugeWidth)
+    // });
 
     //when the query variable changes, update the published classes returned by the database
     this.subscribe('classes', () => [this.getReactively('query')]);
@@ -148,7 +178,6 @@ class ClassCtrl {
   sliderStyle(color) {
     return {'background-color': color}
   }
-
 }
  
 export default angular.module('classes', [
