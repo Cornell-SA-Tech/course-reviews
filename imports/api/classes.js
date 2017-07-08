@@ -12,7 +12,8 @@ Classes.schema = new SimpleSchema({
   classTitle: {type: String},
   classAtten: {type: Number},
   classPrereq : { type: [String] ,optional: true},
-  classFull: {type: String} 
+  classFull: {type: String},
+  classSems: {type: [String]}
 });
 
 export const Subjects = new Mongo.Collection('subjects');
@@ -84,7 +85,8 @@ Meteor.methods({
 	//update the database to add any new classes in the current semester if they don't already exist. To be called from the admin page once a semester.
 	addNewSemester: function(initiate) {
 		if (initiate && Meteor.isServer) {
-			return addAllCourses(findCurrSemester());
+			//return addAllCourses(findCurrSemester());
+			return addAllCourses(['FA15']);
 		}
     }
 });
@@ -149,9 +151,18 @@ if (Meteor.isServer) {
 	  	}
 	  	return ret
   	});
+
+  	// COMMENT THESE OUT AFTER THE FIRST METEOR BUILD!!
+	//Classes.remove({});
+	//Subjects.remove({});
+	//addAllCourses(findAllSemesters());
 }
 
-//initializes the database. Adds all classes and subjects from Cornell's API between the selected semesters.
+
+//Other helper functions used above
+
+// Adds all classes and subjects from Cornell's API between the selected semesters to the database. 
+// Called when updating for a new semester and when initializing the database
 function addAllCourses(semesters) {
     // var semesters = ["SP17", "SP16", "SP15","FA17", "FA16", "FA15"];
 	for (semester in semesters) {
@@ -194,11 +205,18 @@ function addAllCourses(semesters) {
 					          		classSub : (courses[course].subject).toLowerCase(),
 					          		classNum : courses[course].catalogNbr, 
 					          		classTitle : courses[course].titleLong,
-					          		classPrereq : {}, 
-					          		classFull: (courses[course].subject).toLowerCase() + " " + courses[course].catalogNbr +" " + courses[course].titleLong.toLowerCase()
+					          		classPrereq : [], 
+					          		classFull: (courses[course].subject).toLowerCase() + " " + courses[course].catalogNbr +" " + courses[course].titleLong.toLowerCase(),
+					          		classSems: [semesters[semester]]
 					       		});
 					     	} else {
-					        	console.log("update class " + courses[course].subject + " " + courses[course].catalogNbr + "," + semesters[semester]);
+					     		var matchedCourse = check[0] //only 1 should exist
+					     		var oldSems = matchedCourse.classSems;
+					        	if (oldSems.indexOf(semesters[semester]) == -1) {
+					        		console.log("update class " + courses[course].subject + " " + courses[course].catalogNbr + "," + semesters[semester]);
+						        	oldSems.push(semesters[semester]) //add this semester to the list
+						        	Classes.update({_id: matchedCourse._id}, {$set: {classSems: oldSems}})
+						        }
 					      	}
 					    } catch(error){
 					    	console.log(course);
@@ -238,8 +256,3 @@ function findAllSemesters() {
 		return allSemestersArray
 	}
 }
-
-  // COMMENT THESE OUT AFTER THE FIRST METEOR BUILD!!
-  // Classes.remove({});
-  // Subjects.remove({});
-  // initDB(true);

@@ -32,6 +32,7 @@ class UpdatesCtrl {
 
   getNewSemester() {
     //call the database updating function in api/classes
+    console.log('clicked update')
     Meteor.call('addNewSemester', true);
   }
 }
