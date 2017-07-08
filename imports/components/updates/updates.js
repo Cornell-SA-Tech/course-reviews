@@ -29,6 +29,11 @@ class UpdatesCtrl {
     //Reviews.remove({ _id: review._id})
     Meteor.call('removeReview', review)
   }
+
+  getNewSemester() {
+    //call the database updating function in api/classes
+    Meteor.call('addNewSemester', true);
+  }
 }
  
 export default angular.module('update', [

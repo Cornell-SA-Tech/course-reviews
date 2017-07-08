@@ -2,6 +2,9 @@
 <div class = "panel panel-default">
   <div class = "panel-body">
     <h1>Edit Reviews</h1>
+    <div>
+      <button ng-click='$ctrl.getNewSemester()'>Add New Semester</button>
+    </div>
   </div>
 </div>
 
@@ -28,8 +31,8 @@
                       <div class = "panel-body"> Level of difficulty</div>
                   </div>
                   <div class = "col-sm-8">{{review.text}}</div>
-                  <button ng-click="$ctrl.makeVisible(review)""> Confirm Review</button> 
-                  <button ng-click="$ctrl.remove(review)""> Remove Review</button> 
+                  <button ng-click="$ctrl.makeVisible(review)"> Confirm Review</button> 
+                  <button ng-click="$ctrl.remove(review)"> Remove Review</button> 
                 </div>
             </div>
           </div>

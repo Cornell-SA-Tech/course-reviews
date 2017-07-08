@@ -80,7 +80,13 @@ Meteor.methods({
 	   	} else {
 	   		return 0
 	   	}
-	}
+	},
+	//update the database to add any new classes in the current semester if they don't already exist. To be called from the admin page once a semester.
+	addNewSemester: function(initiate) {
+		if (initiate && Meteor.isServer) {
+			return addAllCourses(findCurrSemester());
+		}
+    }
 });
 
 //Code that runs only on the server
@@ -143,42 +149,43 @@ if (Meteor.isServer) {
 	  	}
 	  	return ret
   	});
+}
 
-    //initializes the database. Adds all classes and subjects from Cornell's API between the semesters indicated below.
-    function initDB(bool) {
-	    var semesters = ["SP17", "SP16", "SP15","FA17", "FA16", "FA15"];
-		for (semester in semesters) {
-			//get all classes in this semester
-		    var result = HTTP.call("GET", "https://classes.cornell.edu/api/2.0/config/subjects.json?roster=" + semesters[semester], {timeout: 30000});
-		    if (result.statusCode != 200) {
-		      console.log("error");
-		    } else {
-			  	response = JSON.parse(result.content);
-			  	//console.log(response);
-				var sub = response.data.subjects;
-				for (course in sub) {
-				    parent = sub[course];
-				    //if subject doesn't exist add to Subjects collection
-				    checkSub = Subjects.find({'subShort' : (parent.value).toLowerCase()}).fetch(); 
-				    console.log(checkSub);
-				    if (checkSub.length == 0) {
-				     	console.log("new subject: " + parent.value);
-				        Subjects.insert({
-				        	subShort : (parent.value).toLowerCase(),
-				        	subFull : parent.descr
-				        });
-				    } 
-				  
-				    //for each subject, get all classes in that subject for this semester
-				    var result2 = HTTP.call("GET", "https://classes.cornell.edu/api/2.0/search/classes.json?roster=" + semesters[semester] + "&subject="+ parent.value, {timeout: 30000});
-				    if (result2.statusCode != 200) {
-				    	console.log("error2");
-				    } else {
-				    	response2 = JSON.parse(result2.content);
-					    courses = response2.data.classes;
+//initializes the database. Adds all classes and subjects from Cornell's API between the selected semesters.
+function addAllCourses(semesters) {
+    // var semesters = ["SP17", "SP16", "SP15","FA17", "FA16", "FA15"];
+	for (semester in semesters) {
+		//get all classes in this semester
+	    var result = HTTP.call("GET", "https://classes.cornell.edu/api/2.0/config/subjects.json?roster=" + semesters[semester], {timeout: 30000});
+	    if (result.statusCode != 200) {
+	      console.log("error");
+	    } else {
+		  	response = JSON.parse(result.content);
+		  	//console.log(response);
+			var sub = response.data.subjects;
+			for (course in sub) {
+			    parent = sub[course];
+			    //if subject doesn't exist add to Subjects collection
+			    checkSub = Subjects.find({'subShort' : (parent.value).toLowerCase()}).fetch(); 
+			    if (checkSub.length == 0) {
+			     	console.log("new subject: " + parent.value);
+			        Subjects.insert({
+			        	subShort : (parent.value).toLowerCase(),
+			        	subFull : parent.descr
+			        });
+			    } 
+			  
+			    //for each subject, get all classes in that subject for this semester
+			    var result2 = HTTP.call("GET", "https://classes.cornell.edu/api/2.0/search/classes.json?roster=" + semesters[semester] + "&subject="+ parent.value, {timeout: 30000});
+			    if (result2.statusCode != 200) {
+			    	console.log("error2");
+			    } else {
+			    	response2 = JSON.parse(result2.content);
+				    courses = response2.data.classes;
 
-					    //add each class to the Classes collection if it doesnt exist already
-					    for (course in courses) {
+				    //add each class to the Classes collection if it doesnt exist already
+				    for (course in courses) {
+				    	try {
 					        var check = Classes.find({'classSub' : (courses[course].subject).toLowerCase(), 'classNum' : courses[course].catalogNbr}).fetch();
 					        if (check.length == 0) {
 					            console.log("new class: " + courses[course].subject + " " + courses[course].catalogNbr + "," + semesters[semester]);
@@ -193,20 +200,46 @@ if (Meteor.isServer) {
 					     	} else {
 					        	console.log("update class " + courses[course].subject + " " + courses[course].catalogNbr + "," + semesters[semester]);
 					      	}
+					    } catch(error){
+					    	console.log(course);
 					    }
 				    }
-				}
-			} 
-		}
+			    }
+			}
+		} 
 	}
+}
 
-    //similar to above, but for a new semester. Run once the new semester data has been released.
-    function addNewSemester() {
-    
-    }
+//returns an array of the current semester, to be given to the addAllCourses function
+function findCurrSemester()  {
+	var response = HTTP.call("GET", "https://classes.cornell.edu/api/2.0/config/rosters.json", {timeout: 30000});
+	if (response.statusCode != 200) {
+      console.log("error");
+    } else {
+	  	response = JSON.parse(response.content);
+		allSemesters = response.data.rosters;
+		thisSem = allSemesters[allSemesters.length - 1].slug;
+		return [thisSem];
+	}
+}
 
-  //COMMENT THESE OUT AFTER THE FIRST METEOR BUILD!!
+//returns an array of all current semesters, to be given to the addAllCourses function 
+function findAllSemesters() {
+	var response = HTTP.call("GET", "https://classes.cornell.edu/api/2.0/config/rosters.json", {timeout: 30000});
+	if (response.statusCode != 200) {
+      console.log("error");
+    } else {
+	  	response = JSON.parse(response.content);
+		allSemesters = response.data.rosters;
+		var allSemestersArray = allSemesters.map(function(semesterObject) {
+			return semesterObject.slug;
+		})
+		console.log(allSemestersArray)
+		return allSemestersArray
+	}
+}
+
+  // COMMENT THESE OUT AFTER THE FIRST METEOR BUILD!!
   // Classes.remove({});
   // Subjects.remove({});
   // initDB(true);
-}
